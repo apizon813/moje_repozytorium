@@ -17,3 +17,14 @@ class Item:
     @property
     def mass(self):
         return self._mass
+    
+    def __repr__(self):
+        return f'{self.__class__.__name__}(name={self.name}, mass={self.mass})'
+
+    def __eq__(self, other):
+        return self.name == other.name and self.mass == other.mass
+
+
+class Box(Item):
+    def __init__(self, name, mass, lift):
+        super().__init__(name, mass)
