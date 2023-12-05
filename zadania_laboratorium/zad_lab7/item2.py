@@ -28,3 +28,29 @@ class Item:
 class Box(Item):
     def __init__(self, name, mass, lift):
         super().__init__(name, mass)
+        self._max_lift = lift
+        self._current_lift = lift
+        self._contains = []
+    
+    @property
+    def lift(self):
+        return self._max_lift
+
+    @property
+    def current_lift(self):
+        return self._current_lift
+    
+    @property
+    def contains(self):
+        return self._contains
+
+    
+    def insert(self, item):
+        self._contains.append(item)
+        self._current_lift -= item.mass
+
+    def remove(self, item):
+        if not item in self.contains:
+            print('yea')
+        self._contains.remove(item)
+        self._current_lift += item.mass
