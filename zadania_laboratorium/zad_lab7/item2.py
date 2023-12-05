@@ -10,8 +10,10 @@ class Item:
         self._name = name
         self._mass = mass
     
+    @property
     def name(self):
         return self._name
     
+    @property
     def mass(self):
         return self._mass
