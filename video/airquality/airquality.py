@@ -3,8 +3,9 @@ from datetime import datetime
 
 urls = {
     'findAll': 'http://api.gios.gov.pl/pjp-api/rest/station/findAll',
-    'sensors': 'http://api.gios.gov.pl/pjp-api/rest/sensors/{stationId}',
-    'getData': 'http://api.gios.gov.pl/pjp-api/rest/getData/{sensorId}',
+    'sensors':
+    'http://api.gios.gov.pl/pjp-api/rest/station/sensors/{stationId}',
+    'getData': 'http://api.gios.gov.pl/pjp-api/rest/data/getData/{sensorId}',
     'index': 'http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/{stationId}'
 }
 
