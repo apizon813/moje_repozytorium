@@ -1,5 +1,5 @@
 import requests
-
+from datetime import datetime
 
 urls = {
     'findAll': 'http://api.gios.gov.pl/pjp-api/rest/station/findAll',
@@ -42,7 +42,7 @@ class Station(AirApiObject):
         return self._get('city')
 
     def sensors(self):
-        all_sensors = requests.get(urls['sensors'].format(stationId=self._id))
+        all_sensors = requests.get(urls['sensors'].format(stationId=self.id()))
         return [Sensor(self, sensor) for sensor in all_sensors]
 
     def __str__(self):
@@ -54,6 +54,9 @@ class Sensor(AirApiObject):
         super().__init__(data)
         self._station = station
 
+    def name(self):
+        return self._get('param').get('paramName')
+
     def code(self):
         return self._get('param').get('paramCode')
 
@@ -64,12 +67,16 @@ class Sensor(AirApiObject):
         return self._get('param')
 
     def readings(self):
-        result = requests.get(urls['getData'].format(sensorId=self._id))
+        result = requests.get(urls['getData'].format(sensorId=self.id()))
         # result is a dictionary!
         key = result['key']
-        value = result['values']
+        values = result['values']
         return [
-            Reading(self, key, value['data'], value['value'])
+            Reading(self,
+                    key,
+                    datetime.fromisoformat(value['date']),
+                    value['value'])
+            for value in values
         ]
 
 
