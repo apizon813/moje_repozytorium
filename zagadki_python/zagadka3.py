@@ -1,4 +1,4 @@
-list = [1,2,3]
+list = [1, 2, 3]
 if list[3]:
     print(16)
 else:
