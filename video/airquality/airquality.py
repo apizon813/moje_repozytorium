@@ -37,14 +37,14 @@ class Station(AirApiObject):
         return (float(lat), float(lon))
 
     def city_name(self):
-        return self._gey('city')['name']
+        return self._get('city')['name']
 
     def city_data(self):
         return self._get('city')
 
     def sensors(self):
         all_sensors = requests.get(urls['sensors'].format(stationId=self.id()))
-        return [Sensor(self, sensor) for sensor in all_sensors]
+        return [Sensor(self, sensor) for sensor in all_sensors.json()]
 
     def __str__(self):
         return self.name()
@@ -68,7 +68,8 @@ class Sensor(AirApiObject):
         return self._get('param')
 
     def readings(self):
-        result = requests.get(urls['getData'].format(sensorId=self.id()))
+        result = requests.get(urls[
+            'getData'].format(sensorId=self.id())).json()
         # result is a dictionary!
         key = result['key']
         values = result['values']
@@ -87,6 +88,9 @@ class Reading:
         self.key = key
         self.date = date
         self.value = value
+
+    def __str__(self):
+        return f'{self.key}: {self.value} on {self.date}'
 
     def sensor(self):
         return self._sensor
