@@ -1,5 +1,6 @@
 from random import randint, choice
 
+
 class NegativePowerError(Exception):
     def __init__(self, lives):
         super().__init__('Life Count cannot be negative.')
@@ -27,7 +28,7 @@ class Player:
     Class Player. Contains attributes:
     :param name: player's name
     :type name: str
-    
+
     :param power: player's lives, defaults to 5
     :type lives: int
     '''
@@ -40,7 +41,7 @@ class Player:
 
     def name(self):
         return self._name
-    
+
     def set_name(self, new_name):
         if not new_name:
             raise NameError('Name cannot be empty.')
@@ -48,11 +49,11 @@ class Player:
 
     def power(self):
         return self._power
-    
+
     def set_power(self, new_power):
         if new_power < 0:
             raise NegativePowerError(new_power)
-        self._power = new_power 
+        self._power = new_power
 
     def attack(self, enemies):
         if self.power() == 0 or not enemies:
@@ -65,12 +66,11 @@ class Player:
         # apply damage
         self._power -= 1
 
-
     def info(self):
         '''
         Returns basic describtion of the player.
         '''
-        return f'My name is {self._name}. I have {self._power} points of power.'
+        return f'My name is {self._name}. I have {self._power} points of power'
 
     def __str__(self):
         return self.info()
@@ -96,7 +96,7 @@ class Enemy():
         Returns name of the enemy.
         '''
         return self._name
-    
+
     def set_name(self, new_name):
         '''
         Sets name of enemy to new_name
@@ -110,7 +110,7 @@ class Enemy():
         Returns health of enemy
         '''
         return self._health
-    
+
     def set_health(self, new_health):
         '''
         Sets health of enemy to new_health
@@ -130,19 +130,12 @@ class Enemy():
         if damage <= 0:
             raise ValueError('Damage has to be positive')
         self._health -= min(damage, self._health)
-    
+
     def is_alive(self):
         '''
         Returns True if health greater than 0.
         '''
         return self._health > 0
-
-
-
-
-
-
-
 
 
 class Hydra(Enemy):
@@ -154,19 +147,19 @@ class Hydra(Enemy):
         self._base_health = health
 
     def heads(self):
-        return self._heads    
-    
+        return self._heads
+
     def base_health(self):
         return self._base_health
-  
+
     def regenerate(self, heal):
         if heal < 0:
             raise ValueError('Heal has to be positive')
-        
+
         if self.health() >= self.base_health():
             return
         self._health += min(heal, self._base_health - self._health)
-    
+
     def __str__(self):
         base = super().__str__()
         heads = self._heads
@@ -184,4 +177,3 @@ class Game:
         self.player = player
         self.enemies = enemies if enemies else []
         self._result = None
-         

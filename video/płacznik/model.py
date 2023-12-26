@@ -6,6 +6,10 @@ class InvalidSexError(Exception):
     pass
 
 
+class MalformedPersonDataError(Exception):
+    pass
+
+
 class Person:
     def __init__(self, id, name, sex, birth_date):
         if not name:

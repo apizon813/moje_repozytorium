@@ -1,13 +1,21 @@
-from model_io import read_from_file  # write_to_file
+from model_io import read_from_file, MalformedPersonDataError
 from io import StringIO
+import pytest
 
 
 def test_read_from_file():
-    data = '''id,name,sex,birth_date\n
-id1,name1,Female,1/1/2000\n '''
+    data = 'id,name,sex,birth_date\nid1,name1,Female,1/1/2000\n'
     file_handle = StringIO(data)
     people = read_from_file(file_handle)
     assert len(people) == 1
+    assert people[0].id() == 'id1'
+
+
+# def test_read_missing_column_in_row():
+#     data = 'id,name,sex,birth_date\nid1,name1Female,1/1/2000\n'
+#     file_handle = StringIO(data)
+#     with pytest.raises(MalformedPersonDataError):
+#         read_from_file(file_handle)
 
 
 # def test_read_from_file():
