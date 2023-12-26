@@ -1,5 +1,6 @@
-from model_io import read_from_file, write_to_file
+from model_io import read_from_file  # write_to_file
 from io import StringIO
+
 
 def test_read_from_file():
     data = '''id,name,sex,birth_date\n

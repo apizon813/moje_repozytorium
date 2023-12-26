@@ -17,7 +17,8 @@ def read_from_file(file_handle):
         people.append(person)
     return people
 
-def  write_to_file(file_handle, people):
+
+def write_to_file(file_handle, people):
     file_handle.write('id,name,sex,birth_date\n')
     for person in people:
         id = person.id()

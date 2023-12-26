@@ -1,10 +1,9 @@
 class InvalidNameError(Exception):
     pass
 
+
 class InvalidSexError(Exception):
     pass
-
-
 
 
 class Person:
@@ -23,17 +22,15 @@ class Person:
         name = self.name()
         born = self.birth_date()
         return f'{id}: {name}, born on {born}'
-    
+
     def id(self):
-        return self._id    
-    
+        return self._id
+
     def name(self):
         return self._name
-    
+
     def birth_date(self):
-        return self._birth_date    
+        return self._birth_date
 
     def sex(self):
         return self._sex
-    
-
