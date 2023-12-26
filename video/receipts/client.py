@@ -20,13 +20,13 @@ class Client:
     @property
     def user_id(self):
         return str(self._user_id)
- 
+
     @property
     def receipts(self):
         return self._receipts
- 
+
     def add_receipt(self, receipt: Receipt):
-        if self.receipts == None:
+        if self.receipts is None:
             self._receipts = []
         if isinstance(receipt, Receipt):
             self.receipts.append(receipt)
@@ -39,7 +39,7 @@ class Client:
         for receipt in self.receipts:
             # price in gr
             total_spend += receipt.total_price.value_gr
- 
+
         return Price(total_spend)
 
     def __str__(self):

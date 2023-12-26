@@ -19,6 +19,7 @@ TAXES = {
 # obecna data wypisywana na paragonie
 DATE = '25.10.2023'
 
+
 # argument - cena int w groszach np. 123
 # return fstring '1.23'
 def get_price(price):
@@ -31,8 +32,9 @@ def get_price(price):
         return f'-{zl}.{gr:>02}'
     else:
         return f'{zl}.{gr:>02}'
-    
-# funkcja zwraca cenę całego zamówienia 
+
+
+# funkcja zwraca cenę całego zamówienia
 # argument - {'milk': {'quant': 2, 'price': 598, 'tax': 70, 'group': 'A'}}
 # return - cena int w groszach
 def get_total_price(order):
@@ -40,6 +42,7 @@ def get_total_price(order):
     for item in order:
         price += order[item]['price'] * order[item]['quant']
     return price
+
 
 # funkcaj zwraca podatek od całego zamówienia
 # argument - {'milk': {'quant': 2, 'price': 598, 'tax': 70, 'group': 'A'}}
@@ -56,7 +59,8 @@ def get_products_with_taxes(products, taxes):
     for product in products:
         tax_category = products[product][1]
         tax = int(taxes[tax_category] * products[product][0] / 100)
-        products_with_taxes[product] = (products[product][0], tax, products[product][1])
+        products_with_taxes[product] = (products[product][0],
+                                        tax, products[product][1])
     return products_with_taxes
 
 
@@ -72,8 +76,11 @@ def get_order(products_with_taxes):
             quant = int(input("Number of items: "))
             if quant > 0:
                 order[product] = {'quant': quant}
-                order[product]['price'] = order[product]['quant'] * products_with_taxes[product][0]
-                order[product]['tax'] = order[product]['quant'] * products_with_taxes[product][1]
+                prod_quant = order[product]['quant']
+                prod_price = products_with_taxes[product][0]
+                prod_tax = products_with_taxes[product][1]
+                order[product]['price'] = prod_quant * prod_price
+                order[product]['tax'] = prod_quant * prod_tax
                 order[product]['group'] = products_with_taxes[product][2]
             else:
                 print('Wrong quantity!')
@@ -81,12 +88,14 @@ def get_order(products_with_taxes):
             print('There is no such item.')
     return order
 
+
 def get_receipt(order, date):
     receipt = f'{date}\n-------------------------------\n'
     index = 1
     for product in order:
         price = get_price(order[product]['price'])
-        receipt += f'{index:>3}. {order[product]["quant"]:2}x {product :15}{price:>5} {order[product]["group"]}\n'
+        receipt += f'{index:>3}. {order[product]["quant"]:2}x'\
+            f' {product :15}{price:>5} {order[product]["group"]}\n'
         index += 1
     receipt += '-------------------------------\n'
     price = get_total_price(order)
@@ -98,8 +107,8 @@ def get_receipt(order, date):
     return receipt
 
 
-
 PRODUCTS_WITH_TAXES = (get_products_with_taxes(PRODUCTS, TAXES))
-ORDER = {'milk': {'quant': 2, 'price': 598, 'tax': 70, 'group': 'A'}} # get_order(PRODUCTS_WITH_TAXES)
+ORDER = {'milk': {'quant': 2, 'price': 598, 'tax': 70, 'group': 'A'}}
+# get_order(PRODUCTS_WITH_TAXES)
 
 print(get_receipt(ORDER, DATE))

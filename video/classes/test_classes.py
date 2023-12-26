@@ -22,7 +22,7 @@ def test_create_player_with_negative_power():
 
 def test_introduce():
     player = Player('Jurek Ogórek', 3)
-    assert player.info() == 'My name is Jurek Ogórek. I have 3 points of power.'
+    assert player.info() == 'My name is Jurek Ogórek. I have 3 points of power'
 
 
 def test_introduce_as_str():
@@ -99,6 +99,7 @@ def test_attack_choose_enemy(monkeypatch):
     orc1 = Enemy('orc1', 10)
     orc2 = Enemy('orc2', 20)
     enemies = [orc1, orc2]
+
     def get_orc2(orcs):
         return orc2
     monkeypatch.setattr('classes.choice', get_orc2)
@@ -106,8 +107,6 @@ def test_attack_choose_enemy(monkeypatch):
     player.attack(enemies)
     assert player.power() == 4
     assert orc1.health() < 10 or orc2.health() < 20
-
-
 
 
 def test_enemy_create():
@@ -208,7 +207,8 @@ def test_hydra_create_default_heads():
 
 def test_hydra_describtion():
     hydra = Hydra('two-headed-hydra', 30, 2)
-    assert str(hydra) == 'This is two-headed-hydra. It has 30 health points left. It has 2 heads.'
+    assert str(hydra) == 'This is two-headed-hydra.'\
+        ' It has 30 health points left. It has 2 heads.'
 
 
 def test_hydra_regenerate():
@@ -242,7 +242,7 @@ def test_hydra_regenerate_health_above_base():
     hydra = Hydra('two-headed hydra', 30, 2)
     assert hydra.base_health() == 30
     hydra.set_health(50)
-    hydra.take_damage(10) # health = 40, base = 30
+    hydra.take_damage(10)  # health = 40, base = 30
     hydra.regenerate(5)
     assert hydra.health() == 40
 
@@ -266,6 +266,7 @@ def test_dragonhydra_take_damage_miss(monkeypatch):
     enemy.take_damage(10)
     assert enemy.health() == 40
 
+
 def test_game_create():
     player = Player('Jurek ogórek')
     enemies = [
@@ -275,6 +276,7 @@ def test_game_create():
     game = Game(player, enemies)
     assert game.player == player
     assert game.enemies == enemies
+
 
 def test_game_create_defult_enemies():
     player = Player('Jórek Ogórek')

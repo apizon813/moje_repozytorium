@@ -51,7 +51,9 @@ class Receipt:
         # HINT try sorting positions by their total price
         # HINT https://docs.python.org/3/howto/sorting.html
         top_pricey = sorted(
-            self._positions, key=lambda position: position.total_price, reverse=True
+            self._positions,
+            key=lambda position: position.total_price,
+            reverse=True
         )
         return top_pricey[:num_positions]
 

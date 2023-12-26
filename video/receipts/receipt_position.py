@@ -31,7 +31,8 @@ class ReceiptPosition:
         return self._format_position()
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(amount={self._amount}, item={repr(self._item)})"
+        return f"{self.__class__.__name__}(amount={self._amount},"\
+            " item={repr(self._item)})"
 
     def _format_position(self):
         # FIXME this is hacky but simple and not super important
