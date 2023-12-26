@@ -6,7 +6,7 @@ class Price:
         if int(value_gr) < 0:
             raise ValueError
         self._value_gr = int(value_gr)
-        
+
     @property
     def value_gr(self):
         return self._value_gr

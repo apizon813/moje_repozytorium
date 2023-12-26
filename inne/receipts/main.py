@@ -21,7 +21,8 @@ class TextColors:
 
 def section(header="", num=0, sections=SECTIONS, line_length=30):
     print(
-        f"{TextColors.OKBLUE}>{TextColors.BOLD} [ {num}/{sections} ] {TextColors.ENDC}",
+        f"{TextColors.OKBLUE}>{TextColors.BOLD}"
+        " [ {num}/{sections} ] {TextColors.ENDC}",
         end="",
     )
     print(f"{TextColors.OKBLUE}{header.capitalize()}...{TextColors.ENDC}")
@@ -29,13 +30,16 @@ def section(header="", num=0, sections=SECTIONS, line_length=30):
 
 def print_ok():
     print(
-        f"{TextColors.OKBLUE}> {TextColors.BOLD}{TextColors.OKGREEN}[ OK ]{TextColors.ENDC}"
+        f"{TextColors.OKBLUE}> {TextColors.BOLD}"
+        "{TextColors.OKGREEN}[ OK ]{TextColors.ENDC}"
     )
 
 
 if __name__ == "__main__":
 
-    print(f"{TextColors.OKGREEN}{TextColors.BOLD}> [ START ] {TextColors.ENDC}")
+    print(
+        f"{TextColors.OKGREEN}{TextColors.BOLD}> [ START ] {TextColors.ENDC}"
+    )
 
     section("creating some data...", num=1)
     toilet_paper = Item(name="toilet paper", price=Price((1100)))
@@ -88,7 +92,9 @@ if __name__ == "__main__":
     print_ok()
 
     section("most expensive positions", num=4)
-    top_expensive_positions = receipt_b.top_expensive_positions(num_positions=2)
+    top_expensive_positions = receipt_b.top_expensive_positions(
+        num_positions=2
+    )
     print(top_expensive_positions)
     print_ok()
 
@@ -99,7 +105,10 @@ if __name__ == "__main__":
     print_ok()
 
     section("client's receipts sorted by length", num=6)
-    receipts_by_length = sorted(client.receipts, key=lambda receipt: len(receipt))
+    receipts_by_length = sorted(
+        client.receipts,
+        key=lambda receipt: len(receipt)
+    )
     for receipt in receipts_by_length:
         print(receipt)
     print_ok()
@@ -113,4 +122,6 @@ if __name__ == "__main__":
         print(receipt)
     print_ok()
 
-    print(f"{TextColors.OKGREEN}{TextColors.BOLD}> [ SUCCESS ]{TextColors.ENDC}")
+    print(
+        f"{TextColors.OKGREEN}{TextColors.BOLD}> [ SUCCESS ]{TextColors.ENDC}"
+    )

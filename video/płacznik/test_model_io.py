@@ -1,6 +1,6 @@
-from model_io import read_from_file, MalformedPersonDataError
+from model_io import read_from_file  # MalformedPersonDataError
 from io import StringIO
-import pytest
+# import pytest
 
 
 def test_read_from_file():

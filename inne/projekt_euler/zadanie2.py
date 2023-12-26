@@ -8,6 +8,7 @@ def fibonacci(max):
             fib.append(fib[n] + fib[n - 1])
         n += 1
 
+
 def sum_even(list):
     output = 0
     for number in list:

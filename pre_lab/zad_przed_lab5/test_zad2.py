@@ -68,6 +68,7 @@ def test_distance_SW_SE():
 def test_distance_SW_SE_around():
     assert distance(14, (-13, -6), (5, -2)) == 15
 
+
 def test_distance_above_limit():
     try:
         distance(1, (2, 0), (0, 0))

@@ -12,7 +12,7 @@ class Worker:
         self._email = email
         self._fname = fname
         self._lname = lname
-        
+
     @property
     def email(self):
         return self._email
@@ -24,7 +24,7 @@ class Worker:
     @property
     def lname(self):
         return self._lname
-    
+
     def set_email(self, new_email):
         self._email = new_email
 
@@ -33,6 +33,7 @@ class Worker:
 
     def set_lname(self, new_lname):
         self._email = new_lname
+
 
 class Full_time_worker(Worker):
     '''
@@ -45,13 +46,14 @@ class Full_time_worker(Worker):
     def __init__(self, email, fname, lname, salary):
         super().__init__(email, fname, lname)
         self._salary = salary
-    
+
     @property
     def salary(self):
         return self._salary
-    
+
     def set_salary(self, new_salary):
         self._salary = new_salary
+
 
 class Technic_worker(Worker):
     '''
@@ -66,18 +68,16 @@ class Technic_worker(Worker):
         self._rph = rph
         self._hours = hours
 
-
     @property
     def rph(self):
         return self._rph
-    
+
     def set_rph(self, new_rph):
         self._rph = new_rph
-    
 
     def monthly_payment(self):
         return self.rph
-        
+
 
 class Programist:
     '''
@@ -85,6 +85,7 @@ class Programist:
     język
     '''
     pass
+
 
 class Menager:
     '''

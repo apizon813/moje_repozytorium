@@ -1,13 +1,14 @@
 from receipts.receipt_position import ReceiptPosition
 from receipts.item import Item
 from receipts.price import Price
-import pytest
+# import pytest
 
 
 def test_repr():
     item = Item("Milk", Price(100))
     position = ReceiptPosition(2, item)
-    assert repr(position) == 'ReceiptPosition(amount=2, item=Item(name=Milk, price=100, barcode=1234567890123))'
+    assert repr(position) == 'ReceiptPosition(amount=2,'\
+        ' item=Item(name=Milk, price=100, barcode=1234567890123))'
 
 # def test_item():
 #     item = ReceiptPosition.item(2)

@@ -24,14 +24,17 @@ class LottoGame:
 
     def _draw_winning_numbers(self):
         """Draw the winning numbers at random out of given range."""
-        self._winning_numbers = set(sample(self._limit_range, self._number_picks))
+        self._winning_numbers = set(
+            sample(self._limit_range, self._number_picks))
 
     def _set_player_numbers(self, numbers=None):
         """Set the players numbers or draw them if none were given"""
         if not numbers:
-            self._player_numbers = set(sample(self._limit_range, self._number_picks))
+            self._player_numbers = set(
+                sample(self._limit_range, self._number_picks))
         else:
-            check_player_numbers(numbers, self._number_picks, self._limit_range)
+            check_player_numbers(
+                numbers, self._number_picks, self._limit_range)
             self._player_numbers = set(numbers)
 
     def _matching_numbers(self):

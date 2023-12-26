@@ -48,11 +48,13 @@ class Polynomial:
     def value(self, x: float) -> float:
         """Calulate the value of polynomial in a given point."""
         return sum(
-            coefficient * x**degree for degree, coefficient in self._terms.items()
+            coefficient * x**degree
+            for degree, coefficient in self._terms.items()
         )
 
     def _combine(
-        self, other: "Polynomial", combine_function: Callable[[float, float], float]
+        self, other: "Polynomial", combine_function: Callable[
+            [float, float], float]
     ) -> "Polynomial":
         """Combine two polynomials given a specific function."""
         # This function is heavily commented to help students better understand

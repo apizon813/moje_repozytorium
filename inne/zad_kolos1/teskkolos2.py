@@ -1,7 +1,7 @@
-def  time_description(hours, minutes):
+def time_description(hours, minutes):
     if hours > 12 or minutes > 60:
         return "Incorrect input data!"
-    
+
     dict = {
         0: '',
         1: 'one',
@@ -21,7 +21,7 @@ def  time_description(hours, minutes):
         40: 'fourty',
         50: 'fifty',
     }
-    
+
     if minutes == 0:
         return f"{dict[hours]} o' clock"
     elif minutes == 15:
@@ -30,9 +30,12 @@ def  time_description(hours, minutes):
         return f"quarter to {dict[(hours+1)%12]}"
     else:
         if minutes < 30:
-            return f"{dict[minutes // 10]} {dict[minutes % 10]} past {dict[hours]}"
+            return f"{dict[minutes // 10]}"\
+                f" {dict[minutes % 10]} past {dict[hours]}"
         else:
-            return f"{dict[minutes // 10]} {dict[minutes % 10]} to {dict[hours]}"
+            return f"{dict[minutes // 10]}"\
+                f" {dict[minutes % 10]} to {dict[hours]}"
+
 
 print(time_description(8, 15))
 print(time_description(11, 13))

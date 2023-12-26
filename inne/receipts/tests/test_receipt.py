@@ -20,6 +20,7 @@ def test_positions():
     receipt = Receipt(positions)
     assert receipt.positions == positions
 
+
 def test_total_price():
     milk = Item("Milk", Price(100))
     position1 = ReceiptPosition(1, milk)
@@ -94,6 +95,3 @@ def test_too_many_expensive_positions():
 def test_empty_expensive_positions():
     paragon = Receipt()
     assert not paragon.top_expensive_positions()
-
-
-

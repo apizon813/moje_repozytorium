@@ -9,7 +9,5 @@ def count_symbols(arr):
     return dict
 
 
-
 array = [['a', 'c', 'o'], ['a', 'a', 'c'], ['c', 'b', 'a']]
 print(count_symbols(array))
-

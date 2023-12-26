@@ -10,12 +10,4 @@ def sum_35_div(n, list):
     return sum
 
 
-
-
-
-
-
-
-
-
 print(sum_35_div(1000, (3, 5)))
