@@ -1,6 +1,7 @@
 def answer():
     return 42
 
+
 if __name__ == "main":
     print("Hello world")
     print('the answer is ' + answer())

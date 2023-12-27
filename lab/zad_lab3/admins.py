@@ -11,8 +11,10 @@ def print_all_admin_names(names):
     for name in names:
         print(name)
 
+
 def is_admin_in(sites):
     return 'Ervin Howell' in sites and 'John Smith' not in sites
+
 
 def admin_lng(list):
     lengths = []

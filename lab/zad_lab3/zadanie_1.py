@@ -12,7 +12,7 @@ def merge_word_list(word_list):
     text = ''
     for word in word_list:
         text.append(word + ' ')
-    
+
 
 def remove_words(sentence, specifics):
     sentence_split = sentence.split()
@@ -30,12 +30,12 @@ def remove_words(sentence, specifics):
     return output
 
 
-word = 'kukułka' #input("Choose a word: ")
+word = 'kukułka'  # input("Choose a word: ")
 print(char_number(word))
 
 
 text = 'Alice in wonderland went into a deep coma.'
-text1 = "I literally can't deal with this drama right now." 
+text1 = "I literally can't deal with this drama right now."
 doubles = [('a', 2), ('l', 3)]
 
 print(remove_words(text1, doubles))
