@@ -6,7 +6,9 @@ class Oponent():
 
 
 class TicTacToe():
-    def __init__(self, dimension: int):
+    def __init__(self, dimension: int, who_starts: str):
+        # who_starts = 'p' - player starts
+        # who_starts = 'o' - oponent starts
         self.dimension = dimension
         self.board = self.create_board(dimension)
 
@@ -25,8 +27,20 @@ class TicTacToe():
     def print_board():
         pass
 
+    def move():
+        pass
+
+    def finished():
+        pass
+
 
 def main():
-    game = TicTacToe(3)
-    game
+    who_starts = input('Who starts? [p/o]\n')
+    game = TicTacToe(3, who_starts)
+    while not game.finished():
+        game.move()
     pass
+
+
+if __name__ == "__main__":
+    main()
