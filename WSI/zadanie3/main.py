@@ -1,12 +1,23 @@
+def minmax(game, move, max):
+    pass
+
+
 class Player():
+    def __init__(self) -> None:
+        self.max = None
+
     def move(self, board: list) -> str:
         move_type = input('> ')
         return move_type
 
 
 class Oponent():
-    def move(self, board):
-        pass
+    def __init__(self) -> None:
+        self.max = None
+
+    def move(self, game):
+        for move in game.possible_moves():
+            pass
 
 
 class TicTacToe():
@@ -16,6 +27,8 @@ class TicTacToe():
 
         self.signs = ('o', 'x')
         self.dimension = dimension
+        player1.max = True
+        player2.max = False
         self.players = (player1, player2)
         self.who_moves = 0
         self.board = self.create_board(dimension)
@@ -90,8 +103,11 @@ class TicTacToe():
                     is_line = False
             if is_line:
                 return True
-        
+
         return is_row_line() or is_col_line() or is_diag_line()
+
+    def possible_moves() -> int:
+        pass
 
 
 def main():
