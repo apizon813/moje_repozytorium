@@ -1,5 +1,11 @@
 def minmax(game, move, max):
-    pass
+    board = game.deepcopy()
+    if board.finished:
+        return board.winner
+
+    if board.who_moves:
+        max_val = -1
+        max_val
 
 
 class Player():
@@ -33,6 +39,7 @@ class TicTacToe():
         self.who_moves = 0
         self.board = self.create_board(dimension)
         self.finished = False
+        self.winner = None
 
     def create_board(self, dimension: int):
         num = 1
@@ -60,7 +67,6 @@ class TicTacToe():
         move_type = player.move(self.board)
 
         self.change_board(move_type, sign)
-        self.finished = self.is_finished(sign)
         self.who_moves = not self.who_moves
 
     def change_board(self, move_type, sign):
@@ -68,6 +74,9 @@ class TicTacToe():
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
                     self.board[i][j] = sign
+        self.finished = self.is_finished(sign)
+        if self.finished:
+            self.winner = self.who_moves
 
     def is_finished(self, sign) -> bool:
         def is_row_line():
@@ -106,8 +115,13 @@ class TicTacToe():
 
         return is_row_line() or is_col_line() or is_diag_line()
 
-    def possible_moves() -> int:
-        pass
+    def possible_moves(self) -> int:
+        moves = []
+        for i in range(self.dimension):
+            for j in range(self.dimension):
+                if self.board[i][j] not in self.signs:
+                    moves.append(self.board[i][j])
+        return moves
 
 
 def main():
