@@ -2,7 +2,10 @@ import numpy as np
 
 
 class Player():
-    pass
+    def move(self, board):
+        move_type = int(input('> '))
+        return move_type
+
 
 class Oponent():
     def move():
@@ -14,6 +17,7 @@ class TicTacToe():
         # who_starts = '0' - player starts
         # who_starts = '1' - oponent starts
 
+        self.signs = ('o', 'x')
         self.dimension = dimension
         self.players = players
         self.who_moves = who_starts
@@ -31,15 +35,22 @@ class TicTacToe():
         matrix = np.array(table)
         return matrix
 
-    def print_board():
-        pass
+    def print_board(self):
+        for i in range(self.dimension):
+            fields = []
+            for j in range(self.dimension):
+                fields.append(str(self.board[i][j]))
+            row = '|' + '|'.join(fields) + '|'
+            print(row)
 
     def move(self):
-        # do testu
-        self.players[self.who_moves].move(self.board)
+        player = self.players[self.who_moves]
+        sign = self.signs[self.who_moves]
+        move_type = player.move(self.board)
+        self.board[self.board == move_type] = sign
         self.who_moves = not self.who_moves
 
-    def finished():
+    def finished(self):
         pass
 
 
@@ -51,9 +62,11 @@ def main():
         players=players,
         who_starts=starting_player,
         )
+    game.print_board()
 
     while not game.finished():
         game.move()
+        game.print_board()
     pass
 
 
