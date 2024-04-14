@@ -23,8 +23,9 @@ class Player():
     def __init__(self) -> None:
         self.max = None
 
-    def move(self, board: list) -> str:
-        move_type = input('> ')
+    def move(self, sign: str) -> str:
+
+        move_type = input(f'{sign} move > ')
         return move_type
 
 
@@ -50,15 +51,16 @@ class TicTacToe():
         # who_starts = '0' - player starts
         # who_starts = '1' - oponent starts
 
-        self.signs = ('o', 'x')
+        self.signs = ('x', 'o')
         self.dimension = dimension
         player1.max = True
         player2.max = False
         self.players = (player1, player2)
-        self.who_moves = 0
+        self.who_moves = 1
+        self.sign = self.signs[1]
         self.board = self.create_board(dimension)
         self.finished = False
-        self.winner = None
+        self.state = None
 
     def create_board(self, dimension: int):
         # działa
@@ -85,43 +87,46 @@ class TicTacToe():
     def move(self):
         # raczej działa
         player = self.players[self.who_moves]
-        move_type = player.move(self.board)
+        move_type = player.move(self.sign)
+        while move_type not in self.possible_moves():
+            print('You cannot mark that field.')
+            move_type = player.move(self.sign)
 
         self.change_board(move_type)
         self.who_moves = not self.who_moves
+        self.sign = self.signs[self.who_moves]
 
     def change_board(self, move_type):
         # nie wiadomo czy działa
-        sign = self.signs[self.who_moves]
-
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
-                    self.board[i][j] = sign
+                    self.board[i][j] = self.sign
 
-        if self.is_winner(sign):
+        if self.is_winner():
             self.finished = True
-            self.winner = self.who_won()
+            self.state = self.eval_state()
+            self.winner = self.sign
         elif self.is_draw():
             self.finished = True
-            self.winner = 0
+            self.state = 0
 
-    def is_winner(self, sign) -> bool:
+    def is_winner(self) -> bool:
         # nie wiadomo czy działa
         for i in range(self.dimension):
             col_line = True
             row_line = True
             diag1_line = True
             diag2_line = True
-            if self.board[i][i] != sign:
+            if self.board[i][i] != self.sign:
                 diag1_line = False
-            if self.board[i][-i-1] != sign:
+            if self.board[i][-i-1] != self.sign:
                 diag2_line = False
 
             for j in range(self.dimension):
-                if self.board[i][j] != sign:
+                if self.board[i][j] != self.sign:
                     row_line = False
-                if self.board[j][i] != sign:
+                if self.board[j][i] != self.sign:
                     col_line = False
             if col_line:
                 return True
@@ -136,7 +141,7 @@ class TicTacToe():
         if not self.possible_moves():
             return True
 
-    def who_won(self) -> int:
+    def eval_state(self) -> int:
         if self.who_moves:
             return 1
         else:
@@ -151,19 +156,25 @@ class TicTacToe():
                     moves.append(self.board[i][j])
         return moves
 
+    def print_winner(self):
+        if self.state == 0:
+            print('It is a draw.')
+        else:
+            print(f'{self.winner} won!')
+
 
 def main():
     game = TicTacToe(
         dimension=3,
         player1=Player(),
-        player2=Oponent()
+        player2=Player()
         )
     game.print_board()
 
     while not game.finished:
         game.move()
         game.print_board()
-    print('u won')
+    game.print_winner()
 
 
 if __name__ == "__main__":
