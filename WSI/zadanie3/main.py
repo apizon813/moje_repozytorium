@@ -80,19 +80,18 @@ class Oponent():
 
 
 class TicTacToe():
-    def __init__(self, dimension: int, players, who_starts):
-        # who_starts = '0' - player starts
-        # who_starts = '1' - oponent starts
-        who_starts = 1
-        player_min = players[not who_starts]
-        player_max = players[who_starts]
-        self.signs = ('x', 'o')
-        self.dimension = dimension
-        player_min.max = False
+    def __init__(self, dimension: int, player_max, player_min):
+
         player_max.max = True
+        player_min.max = False
+
         self.players = (player_min, player_max)
+        self.signs = ('x', 'o')
+
         self.who_moves = 1
         self.sign = self.signs[1]
+
+        self.dimension = dimension
         self.board = self.create_board(dimension)
         self.finished = False
         self.state = None
@@ -202,18 +201,17 @@ class TicTacToe():
 
 
 def main():
-    players = [Player(), Oponent()]
-    who_starts = 0
 
     game = TicTacToe(
-        3,
-        players,
-        who_starts
+        dimension=3,
+        player_max=Player(),
+        player_min=Oponent()
         )
+
     game.board = [
         ['1', '2', '3'],
-        ['x', 'o', '6'],
-        ['7', '8', '9']
+        ['4', 'o', '6'],
+        ['x', '8', '9']
     ]
     game.print_board()
 
