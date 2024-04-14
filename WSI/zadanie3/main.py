@@ -61,6 +61,7 @@ class TicTacToe():
         self.winner = None
 
     def create_board(self, dimension: int):
+        # działa
         num = 1
         table = []
         for i in range(dimension):
@@ -73,6 +74,7 @@ class TicTacToe():
         return table
 
     def print_board(self):
+        # działa
         for i in range(self.dimension):
             fields = []
             for j in range(self.dimension):
@@ -81,6 +83,7 @@ class TicTacToe():
             print(row)
 
     def move(self):
+        # raczej działa
         player = self.players[self.who_moves]
         move_type = player.move(self.board)
 
@@ -88,6 +91,7 @@ class TicTacToe():
         self.who_moves = not self.who_moves
 
     def change_board(self, move_type):
+        # nie wiadomo czy działa
         sign = self.signs[self.who_moves]
 
         for i in range(self.dimension):
@@ -102,10 +106,8 @@ class TicTacToe():
             self.finished = True
             self.winner = 0
 
-        if self.finished:
-            self.winner = self.who_moves
-
     def is_winner(self, sign) -> bool:
+        # nie wiadomo czy działa
         for i in range(self.dimension):
             col_line = True
             row_line = True
@@ -130,13 +132,18 @@ class TicTacToe():
         if not self.possible_moves():
             return True
 
-    def is_draw():
-        pass
+    def is_draw(self) -> bool:
+        if not self.possible_moves():
+            return True
 
-    def who_won():
-        pass
+    def who_won(self) -> int:
+        if self.who_moves:
+            return 1
+        else:
+            return -1
 
     def possible_moves(self) -> int:
+        # raczej działa
         moves = []
         for i in range(self.dimension):
             for j in range(self.dimension):
