@@ -1,11 +1,22 @@
-def minmax(game, move, max):
-    board = game.deepcopy()
+def minmax(board, maxim: bool, alpha, beta):
+    board = board.deepcopy()
     if board.finished:
+        # tu powinno być -1 0 i 1 jako możliwe wartości
+        # czy winner to int?
+        # żeby wybrać ekstremum musi być int
         return board.winner
 
-    if board.who_moves:
+    if maxim:
         max_val = -1
-        max_val
+        for pos_move in board.possible_moves():
+            val = minmax(board, pos_move, not maxim)
+            max_val = max(max_val, val)
+
+    else:
+        min_val = 2
+        for pos_move in board.possible_moves():
+            val = minmax(board, pos_move, not maxim)
+            min_val = min(min_val, val)
 
 
 class Player():
@@ -22,7 +33,15 @@ class Oponent():
         self.max = None
 
     def move(self, game):
+        moves_vals = {}
         for move in game.possible_moves():
+            board = game.deepcopy()
+            board.change_board(move)
+            moves_vals[move] = minmax(board, -1, 2)
+
+        # ostatni najlepszy ruch będzie wykonany
+        if self.max:
+            # best
             pass
 
 
@@ -63,13 +82,14 @@ class TicTacToe():
 
     def move(self):
         player = self.players[self.who_moves]
-        sign = self.signs[self.who_moves]
         move_type = player.move(self.board)
 
-        self.change_board(move_type, sign)
+        self.change_board(move_type)
         self.who_moves = not self.who_moves
 
-    def change_board(self, move_type, sign):
+    def change_board(self, move_type):
+        sign = self.signs[self.who_moves]
+
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
@@ -81,39 +101,26 @@ class TicTacToe():
     def is_finished(self, sign) -> bool:
         def is_row_line():
             for i in range(self.dimension):
-                is_line = True
+                col_line = True
+                row_line = True
+                diag1_line = True
+                diag2_line = True
+                if self.board[i][i] != sign:
+                    diag1_line = False
+                if self.board[i][-i-1] != sign:
+                    diag2_line = False
+
                 for j in range(self.dimension):
                     if self.board[i][j] != sign:
-                        is_line = False
-                if is_line:
-                    return True
-
-        def is_col_line():
-            for i in range(self.dimension):
-                is_line = True
-                for j in range(self.dimension):
+                        row_line = False
                     if self.board[j][i] != sign:
-                        is_line = False
-                if is_line:
+                        col_line = False
+                if col_line:
                     return True
-
-        def is_diag_line():
-            is_line = True
-            for i in range(self.dimension):
-                if self.board[i][i] != sign:
-                    is_line = False
-            if is_line:
+                if row_line:
+                    return True
+            if diag1_line or diag2_line:
                 return True
-
-            is_line = True
-            for i in range(self.dimension):
-
-                if self.board[i][-i-1] != sign:
-                    is_line = False
-            if is_line:
-                return True
-
-        return is_row_line() or is_col_line() or is_diag_line()
 
     def possible_moves(self) -> int:
         moves = []
