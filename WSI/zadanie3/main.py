@@ -94,33 +94,47 @@ class TicTacToe():
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
                     self.board[i][j] = sign
-        self.finished = self.is_finished(sign)
+
+        if self.is_winner(sign):
+            self.finished = True
+            self.winner = self.who_won()
+        elif self.is_draw():
+            self.finished = True
+            self.winner = 0
+
         if self.finished:
             self.winner = self.who_moves
 
-    def is_finished(self, sign) -> bool:
-        def is_row_line():
-            for i in range(self.dimension):
-                col_line = True
-                row_line = True
-                diag1_line = True
-                diag2_line = True
-                if self.board[i][i] != sign:
-                    diag1_line = False
-                if self.board[i][-i-1] != sign:
-                    diag2_line = False
+    def is_winner(self, sign) -> bool:
+        for i in range(self.dimension):
+            col_line = True
+            row_line = True
+            diag1_line = True
+            diag2_line = True
+            if self.board[i][i] != sign:
+                diag1_line = False
+            if self.board[i][-i-1] != sign:
+                diag2_line = False
 
-                for j in range(self.dimension):
-                    if self.board[i][j] != sign:
-                        row_line = False
-                    if self.board[j][i] != sign:
-                        col_line = False
-                if col_line:
-                    return True
-                if row_line:
-                    return True
-            if diag1_line or diag2_line:
+            for j in range(self.dimension):
+                if self.board[i][j] != sign:
+                    row_line = False
+                if self.board[j][i] != sign:
+                    col_line = False
+            if col_line:
                 return True
+            if row_line:
+                return True
+        if diag1_line or diag2_line:
+            return True
+        if not self.possible_moves():
+            return True
+
+    def is_draw():
+        pass
+
+    def who_won():
+        pass
 
     def possible_moves(self) -> int:
         moves = []
