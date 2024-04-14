@@ -1,31 +1,47 @@
-def minmax(board, maxim: bool, alpha, beta):
-    board = board.deepcopy()
+import copy
+
+
+def minmax(game, move, depth):
+    stop_depth = 6
+    board = copy.deepcopy(game)
+    board.change_board(move)
+
     if board.finished:
         # tu powinno być -1 0 i 1 jako możliwe wartości
         # czy winner to int?
         # żeby wybrać ekstremum musi być int
-        return board.winner
+        if depth == stop_depth:
+            pass
+        return board.state
+
+    maxim = board.who_moves
 
     if maxim:
-        max_val = -1
-        for pos_move in board.possible_moves():
-            val = minmax(board, pos_move, not maxim)
-            max_val = max(max_val, val)
+        values = []
+        for move in board.possible_moves():
+            value = minmax(board, move, depth + 1)
+            values.append(value)
+        if depth == stop_depth:
+            pass
+        return max(values)
 
     else:
-        min_val = 2
-        for pos_move in board.possible_moves():
-            val = minmax(board, pos_move, not maxim)
-            min_val = min(min_val, val)
+        values = []
+        for move in board.possible_moves():
+            value = minmax(board, move, depth + 1)
+            values.append(value)
+        if depth == stop_depth:
+            pass
+        return min(values)
 
 
 class Player():
     def __init__(self) -> None:
         self.max = None
 
-    def move(self, sign: str) -> str:
+    def move(self, game: str) -> str:
 
-        move_type = input(f'{sign} move > ')
+        move_type = input(f'{game.sign} move > ')
         return move_type
 
 
@@ -34,33 +50,48 @@ class Oponent():
         self.max = None
 
     def move(self, game):
-        moves_vals = {}
+        moves_values = {}
         for move in game.possible_moves():
-            board = game.deepcopy()
-            board.change_board(move)
-            moves_vals[move] = minmax(board, -1, 2)
+            moves_values[move] = minmax(game, move, 1)
 
         # ostatni najlepszy ruch będzie wykonany
         if self.max:
-            # best
-            pass
+
+            best_moves = []
+            best_move_val = max(moves_values.values())
+            for move in moves_values:
+                if moves_values[move] == best_move_val:
+                    best_moves.append(move)
+            return best_moves[0]
+
+        else:
+            best_moves = []
+            best_move_val = min(moves_values.values())
+            for move in moves_values:
+                if moves_values[move] == best_move_val:
+                    best_moves.append(move)
+            return best_moves[0]
+        # dopisać co jeśli min
 
 
 class TicTacToe():
-    def __init__(self, dimension: int, player1, player2):
+    def __init__(self, dimension: int, players, who_starts):
         # who_starts = '0' - player starts
         # who_starts = '1' - oponent starts
-
+        who_starts = 1
+        player_min = players[not who_starts]
+        player_max = players[who_starts]
         self.signs = ('x', 'o')
         self.dimension = dimension
-        player1.max = True
-        player2.max = False
-        self.players = (player1, player2)
+        player_min.max = False
+        player_max.max = True
+        self.players = (player_min, player_max)
         self.who_moves = 1
         self.sign = self.signs[1]
         self.board = self.create_board(dimension)
         self.finished = False
         self.state = None
+        self.history = []
 
     def create_board(self, dimension: int):
         # działa
@@ -87,14 +118,13 @@ class TicTacToe():
     def move(self):
         # raczej działa
         player = self.players[self.who_moves]
-        move_type = player.move(self.sign)
+        move_type = player.move(self)
         while move_type not in self.possible_moves():
             print('You cannot mark that field.')
-            move_type = player.move(self.sign)
+            move_type = player.move(self)
 
+        self.history.append(move_type)
         self.change_board(move_type)
-        self.who_moves = not self.who_moves
-        self.sign = self.signs[self.who_moves]
 
     def change_board(self, move_type):
         # nie wiadomo czy działa
@@ -110,14 +140,17 @@ class TicTacToe():
         elif self.is_draw():
             self.finished = True
             self.state = 0
+        self.who_moves = not self.who_moves
+        self.sign = self.signs[self.who_moves]
 
     def is_winner(self) -> bool:
         # nie wiadomo czy działa
+        diag1_line = True
+        diag2_line = True
         for i in range(self.dimension):
             col_line = True
             row_line = True
-            diag1_line = True
-            diag2_line = True
+
             if self.board[i][i] != self.sign:
                 diag1_line = False
             if self.board[i][-i-1] != self.sign:
@@ -135,7 +168,7 @@ class TicTacToe():
         if diag1_line or diag2_line:
             return True
         if not self.possible_moves():
-            return True
+            return False
 
     def is_draw(self) -> bool:
         if not self.possible_moves():
@@ -164,11 +197,19 @@ class TicTacToe():
 
 
 def main():
+    players = [Player(), Oponent()]
+    who_starts = 1
+
     game = TicTacToe(
-        dimension=3,
-        player1=Player(),
-        player2=Player()
+        3,
+        players,
+        who_starts
         )
+    game.board = [
+        ['1', '2', '3'],
+        ['x', 'o', '6'],
+        ['7', '8', '9']
+    ]
     game.print_board()
 
     while not game.finished:
