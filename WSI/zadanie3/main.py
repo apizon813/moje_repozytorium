@@ -62,7 +62,9 @@ class Oponent():
             for move in moves_values:
                 if moves_values[move] == best_move_val:
                     best_moves.append(move)
-            return best_moves[0]
+            best_move = best_moves[0]
+            print(f'{game.sign} move > {best_move}')
+            return best_move
 
         else:
             best_moves = []
@@ -70,7 +72,10 @@ class Oponent():
             for move in moves_values:
                 if moves_values[move] == best_move_val:
                     best_moves.append(move)
-            return best_moves[0]
+            best_move = best_moves[0]
+            print(f'{game.sign} move > {best_move}')
+
+            return best_move
         # dopisać co jeśli min
 
 
@@ -198,7 +203,7 @@ class TicTacToe():
 
 def main():
     players = [Player(), Oponent()]
-    who_starts = 1
+    who_starts = 0
 
     game = TicTacToe(
         3,
