@@ -3,7 +3,7 @@ from players import (
     Oponent,
     Player
 )
-from minmax import minmax
+from minmax import minmax, DepthAggregate
 from timeit import default_timer as timer
 
 
@@ -58,3 +58,21 @@ def measure_time(parameters):
     with open(path, 'w') as file:
         for time in data:
             file.write(f'{time}\n')
+
+
+def measure_depth(parameters):
+    dimension = parameters[0]
+    board = parameters[1]
+    move = parameters[2]
+    who_starts = parameters[3]
+    path = parameters[4]
+
+    game = TicTacToe(dimension)
+    game.board = board
+    game.who_moves = who_starts
+
+    aggregate = DepthAggregate()
+    minmax(game, move, aggregate)
+    data = aggregate.mean_depth()
+    with open(path, 'w') as file:
+        file.write(data)

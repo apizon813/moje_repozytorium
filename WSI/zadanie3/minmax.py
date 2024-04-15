@@ -1,26 +1,49 @@
 class DepthAggregate():
-    pass
+    def __init__(self) -> None:
+        self.aggregate = []
+
+    def add_depth(self, depth):
+        self.aggregate.append(depth)
+
+    def mean_depth():
+        pass
 
 
-def minmax(game, move, depth=1):
+def minmax(game, move, depth=1, aggregate=False):
+
     game.change_board(move)
 
     if game.finished:
         state = game.state
         game.undo()
-        return state
+        if aggregate:
+            aggregate.add_depth(depth)
+            return state, aggregate
+        else:
+            return state
 
     max_moves: bool = game.who_moves
 
     values = []
     possible_moves = game.possible_moves()
     for move in possible_moves:
-        value = minmax(game, move, depth + 1)
+
+        if aggregate:
+            value, aggregate = minmax(game, move, depth + 1, aggregate)
+        else:
+            value = minmax(game, move, depth + 1)
         values.append(value)
+        # if depth == 14:
+        #     print(f'thinking...{move}')
 
     if max_moves:
         game.undo()
-        return max(values)
+        result = max(values)
     else:
         game.undo()
-        return min(values)
+        result = min(values)
+
+    if aggregate:
+        return result, aggregate
+    else:
+        return result

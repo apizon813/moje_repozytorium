@@ -4,7 +4,7 @@ from minmax import minmax
 class Player():
     def move(self, game: str) -> str:
 
-        move_type = input(f'{game.sign} move > ')
+        move_type = input(f'{game.signs[game.who_moves]} move > ')
         return move_type
 
 
@@ -26,7 +26,7 @@ class Oponent():
                 if moves_values[move] == best_move_val:
                     best_moves.append(move)
             best_move = best_moves[0]
-            print(f'{game.sign} move > {best_move}')
+            print(f'{game.signs[game.who_moves]} move > {best_move}')
             return best_move
 
         else:
@@ -36,7 +36,7 @@ class Oponent():
                 if moves_values[move] == best_move_val:
                     best_moves.append(move)
             best_move = best_moves[0]
-            print(f'{game.sign} move > {best_move}')
+            print(f'{game.signs[game.who_moves]} move > {best_move}')
 
             return best_move
         # dopisać co jeśli min

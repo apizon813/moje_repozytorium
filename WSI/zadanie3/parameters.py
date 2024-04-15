@@ -1,6 +1,8 @@
-PLAY_GAME = True
+PLAY_GAME = False
 
-MEASURE_TIME = True
+MEASURE_TIME = False
+
+MEASURE_DEPTH = True
 
 
 PLAY_GAME_PARAMETERS = [
@@ -20,4 +22,16 @@ MEASURE_TIME_PARAMETERS = [
     who_starts := 1,
     measures_number := 10,
     save_data_path := './measured_time.txt'
+]
+
+MEASURE_DEPTH_PARAMETERS = [
+    dimension := 3,
+    board := [
+        ['1', '2', '3'],
+        ['4', '5', '6'],
+        ['7', '8', '9']
+    ],
+    move := '5',
+    who_starts := 1,
+    save_data_path := './measured_depth.txt'
 ]

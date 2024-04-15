@@ -1,6 +1,7 @@
 from parameters import (
     PLAY_GAME,
-    MEASURE_TIME
+    MEASURE_TIME,
+    MEASURE_DEPTH
 )
 
 
@@ -14,6 +15,11 @@ def main():
         from parameters import MEASURE_TIME_PARAMETERS
         from experiments import measure_time
         measure_time(MEASURE_TIME_PARAMETERS)
+
+    if MEASURE_DEPTH:
+        from parameters import MEASURE_DEPTH_PARAMETERS
+        from experiments import measure_depth
+        measure_depth(MEASURE_DEPTH_PARAMETERS)
 
 
 if __name__ == "__main__":
