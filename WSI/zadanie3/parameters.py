@@ -16,6 +16,8 @@ MEASURE_TIME_PARAMETERS = [
         ['4', '5', '6'],
         ['7', '8', '9']
     ],
+    move := '5',
     who_starts := 1,
-    measures_number := 10
+    measures_number := 10,
+    save_data_path := './measured_time.txt'
 ]

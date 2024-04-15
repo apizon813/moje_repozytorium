@@ -2,7 +2,7 @@ class DepthAggregate():
     pass
 
 
-def minmax(game, move, depth):
+def minmax(game, move, depth=1):
     game.change_board(move)
 
     if game.finished:

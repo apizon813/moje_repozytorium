@@ -9,8 +9,8 @@ class Player():
 
 
 class Oponent():
-    def __init__(self, max) -> None:
-        self.max = None
+    def __init__(self, max=None) -> None:
+        self.max = max
 
     def move(self, game):
         moves_values = {}

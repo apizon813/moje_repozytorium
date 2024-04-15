@@ -3,6 +3,8 @@ from players import (
     Oponent,
     Player
 )
+from minmax import minmax
+from timeit import default_timer as timer
 
 
 def play_game(parameters):
@@ -37,9 +39,22 @@ def play_game(parameters):
 def measure_time(parameters):
     dimension = parameters[0]
     board = parameters[1]
-    who_starts = parameters[2]
-    measure_number = parameters[3]
+    move = parameters[2]
+    who_starts = parameters[3]
+    measure_number = parameters[4]
+    path = parameters[5]
 
     game = TicTacToe(dimension)
     game.board = board
     game.who_moves = who_starts
+
+    data = []
+    for i in range(measure_number):
+        start = timer()
+        minmax(game, move)
+        end = timer()
+        data.append(end - start)
+
+    with open(path, 'w') as file:
+        for time in data:
+            file.write(f'{time}\n')
