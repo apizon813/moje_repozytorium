@@ -1,8 +1,5 @@
 class TicTacToe():
-    def __init__(self, dimension: int, player_max, player_min):
-
-        player_max.max = True
-        player_min.max = False
+    def __init__(self, dimension: int, player_max=None, player_min=None):
 
         self.players = (player_min, player_max)
         self.signs = ('x', 'o')

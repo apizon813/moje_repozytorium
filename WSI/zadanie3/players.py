@@ -2,9 +2,6 @@ from minmax import minmax
 
 
 class Player():
-    def __init__(self) -> None:
-        self.max = None
-
     def move(self, game: str) -> str:
 
         move_type = input(f'{game.sign} move > ')
@@ -12,7 +9,7 @@ class Player():
 
 
 class Oponent():
-    def __init__(self) -> None:
+    def __init__(self, max) -> None:
         self.max = None
 
     def move(self, game):
