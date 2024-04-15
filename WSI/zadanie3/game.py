@@ -52,9 +52,15 @@ class TicTacToe():
         last_move = self.history[-1]
         for i in range(self.dimension):
             for j in range(self.dimension):
-                if number == last_move:
+                if str(number) == last_move:
                     self.board[i][j] = str(number)
                 number += 1
+        self.history.pop()
+        self.finished = False
+        self.winner = None
+        self.state = None
+        self.who_moves = not self.who_moves
+        self.sign = self.signs[self.who_moves]
 
     def change_board(self, move_type):
         self.history.append(move_type)

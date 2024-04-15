@@ -1,13 +1,16 @@
 from game import TicTacToe
-from players import Player, Oponent
+from players import (
+    Player,
+    Oponent
+    )
 
 
 def main():
 
     game = TicTacToe(
         dimension=3,
-        player_max=Player(),
-        player_min=Oponent()
+        player_max=Oponent(),
+        player_min=Player()
         )
 
     # game.board = [
