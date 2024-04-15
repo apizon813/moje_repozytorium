@@ -32,3 +32,7 @@ def play_game(parameters):
         game.ask_for_move()
         game.print_board()
     game.print_winner()
+
+
+def measure_time(parameters):
+    pass

@@ -5,7 +5,6 @@ class TicTacToe():
         self.signs = ('x', 'o')
 
         self.who_moves = 1
-        self.sign = self.signs[1]
 
         self.dimension = dimension
         self.board = self.create_board(dimension)
@@ -57,44 +56,43 @@ class TicTacToe():
         self.winner = None
         self.state = None
         self.who_moves = not self.who_moves
-        self.sign = self.signs[self.who_moves]
 
     def change_board(self, move_type):
         self.history.append(move_type)
-
+        sign = self.signs[self.who_moves]
         # nie wiadomo czy działa
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
-                    self.board[i][j] = self.sign
+                    self.board[i][j] = sign
 
         if self.is_winner():
             self.finished = True
             self.state = self.eval_state()
-            self.winner = self.sign
+            self.winner = sign
         elif self.is_draw():
             self.finished = True
             self.state = 0
         self.who_moves = not self.who_moves
-        self.sign = self.signs[self.who_moves]
 
     def is_winner(self) -> bool:
-        # nie wiadomo czy działa
+
+        sign = self.signs[self.who_moves]
         diag1_line = True
         diag2_line = True
         for i in range(self.dimension):
             col_line = True
             row_line = True
 
-            if self.board[i][i] != self.sign:
+            if self.board[i][i] != sign:
                 diag1_line = False
-            if self.board[i][-i-1] != self.sign:
+            if self.board[i][-i-1] != sign:
                 diag2_line = False
 
             for j in range(self.dimension):
-                if self.board[i][j] != self.sign:
+                if self.board[i][j] != sign:
                     row_line = False
-                if self.board[j][i] != self.sign:
+                if self.board[j][i] != sign:
                     col_line = False
             if col_line:
                 return True
@@ -110,7 +108,7 @@ class TicTacToe():
             return True
 
     def eval_state(self) -> int:
-        if self.sign == 'o':
+        if self.who_moves:
             return 1
         else:
             return -1
