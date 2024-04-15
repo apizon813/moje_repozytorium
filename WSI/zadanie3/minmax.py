@@ -5,8 +5,8 @@ class DepthAggregate():
     def add_depth(self, depth):
         self.aggregate.append(depth)
 
-    def mean_depth():
-        pass
+    def mean_depth(self):
+        return sum(self.aggregate) / len(self.aggregate)
 
 
 def minmax(game, move, depth=1, aggregate=False):

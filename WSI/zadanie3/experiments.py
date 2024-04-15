@@ -72,7 +72,7 @@ def measure_depth(parameters):
     game.who_moves = who_starts
 
     aggregate = DepthAggregate()
-    minmax(game, move, aggregate)
+    minmax(game, move, aggregate=aggregate)
     data = aggregate.mean_depth()
     with open(path, 'w') as file:
         file.write(data)
