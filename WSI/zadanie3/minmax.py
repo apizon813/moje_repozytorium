@@ -9,7 +9,15 @@ class DepthAggregate():
         return sum(self.aggregate) / len(self.aggregate)
 
 
-def minmax(game, move, depth=1, aggregate=False):
+def minmax(
+        game,
+        move,
+        depth=1,
+        aggregate=False,
+        pruning=False,
+        alpha=None,
+        beta=None
+        ):
 
     game.change_board(move)
 
@@ -24,26 +32,55 @@ def minmax(game, move, depth=1, aggregate=False):
 
     max_moves: bool = game.who_moves
 
-    values = []
     possible_moves = game.possible_moves()
+
+    max_val = -2
+    min_val = 2
+
     for move in possible_moves:
 
         if aggregate:
-            value, aggregate = minmax(game, move, depth + 1, aggregate)
+            value, aggregate = minmax(
+                game,
+                move,
+                depth + 1,
+                aggregate,
+                pruning,
+                alpha,
+                beta
+                )
         else:
-            value = minmax(game, move, depth + 1)
-        values.append(value)
-        # if depth == 14:
-        #     print(f'thinking...{move}')
+            value = minmax(
+                game,
+                move,
+                depth + 1,
+                aggregate,
+                pruning,
+                alpha,
+                beta
+                )
+
+        if max_moves:
+            max_val = max(max_val, value)
+            if pruning:
+                alpha = max(alpha, value)
+                if beta <= alpha:
+                    break
+        else:
+            min_val = min(min_val, value)
+            if pruning:
+                beta = min(beta, value)
+                if beta <= alpha:
+                    break
 
     if max_moves:
-        game.undo()
-        result = max(values)
+        result = max_val
     else:
-        game.undo()
-        result = min(values)
+        result = min_val
 
     if aggregate:
+        game.undo()
         return result, aggregate
     else:
+        game.undo()
         return result

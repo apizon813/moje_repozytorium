@@ -13,7 +13,6 @@ class TicTacToe():
         self.history = []
 
     def create_board(self, dimension: int):
-        # działa
         num = 1
         table = []
         for i in range(dimension):
@@ -25,7 +24,6 @@ class TicTacToe():
         return table
 
     def print_board(self):
-        # działa
         for i in range(self.dimension):
             fields = []
             for j in range(self.dimension):
@@ -34,7 +32,6 @@ class TicTacToe():
             print(row)
 
     def ask_for_move(self):
-        # raczej działa
         player = self.players[self.who_moves]
         move_type = player.move(self)
         while move_type not in self.possible_moves():
@@ -60,7 +57,6 @@ class TicTacToe():
     def change_board(self, move_type):
         self.history.append(move_type)
         sign = self.signs[self.who_moves]
-        # nie wiadomo czy działa
         for i in range(self.dimension):
             for j in range(self.dimension):
                 if self.board[i][j] == move_type:
@@ -100,8 +96,6 @@ class TicTacToe():
                 return True
         if diag1_line or diag2_line:
             return True
-        # if not self.possible_moves():
-        #     return False
 
     def is_draw(self) -> bool:
         if not self.possible_moves():
@@ -114,7 +108,6 @@ class TicTacToe():
             return -1
 
     def possible_moves(self) -> int:
-        # raczej działa
         moves = []
         for i in range(self.dimension):
             for j in range(self.dimension):

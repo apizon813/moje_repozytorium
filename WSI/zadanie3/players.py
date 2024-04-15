@@ -17,7 +17,6 @@ class Oponent():
         for move in game.possible_moves():
             moves_values[move] = minmax(game, move, 1)
 
-        # ostatni najlepszy ruch będzie wykonany
         if self.max:
 
             best_moves = []
@@ -39,4 +38,3 @@ class Oponent():
             print(f'{game.signs[game.who_moves]} move > {best_move}')
 
             return best_move
-        # dopisać co jeśli min

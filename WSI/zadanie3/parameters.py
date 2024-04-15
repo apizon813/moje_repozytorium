@@ -7,7 +7,7 @@ MEASURE_DEPTH = True
 
 PLAY_GAME_PARAMETERS = [
     dimension := 3,
-    player_max := True,
+    player_max := False,
     player_min := False
 ]
 
@@ -33,5 +33,5 @@ MEASURE_DEPTH_PARAMETERS = [
     ],
     move := '5',
     who_starts := 1,
-    save_data_path := './measured_depth.txt'
+    save_data_path := './measured_depth.txt',
 ]
