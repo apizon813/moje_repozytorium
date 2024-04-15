@@ -10,5 +10,12 @@ PLAY_GAME_PARAMETERS = [
 ]
 
 MEASURE_TIME_PARAMETERS = [
-    None
+    dimension := 3,
+    board := [
+        ['1', '2', '3'],
+        ['4', '5', '6'],
+        ['7', '8', '9']
+    ],
+    who_starts := 1,
+    measures_number := 10
 ]

@@ -35,4 +35,11 @@ def play_game(parameters):
 
 
 def measure_time(parameters):
-    pass
+    dimension = parameters[0]
+    board = parameters[1]
+    who_starts = parameters[2]
+    measure_number = parameters[3]
+
+    game = TicTacToe(dimension)
+    game.board = board
+    game.who_moves = who_starts
