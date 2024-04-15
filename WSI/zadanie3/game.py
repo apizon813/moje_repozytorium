@@ -37,7 +37,7 @@ class TicTacToe():
             row = '|' + '|'.join(fields) + '|'
             print(row)
 
-    def move(self):
+    def ask_for_move(self):
         # raczej działa
         player = self.players[self.who_moves]
         move_type = player.move(self)
@@ -45,10 +45,20 @@ class TicTacToe():
             print('You cannot mark that field.')
             move_type = player.move(self)
 
-        self.history.append(move_type)
         self.change_board(move_type)
 
+    def undo(self):
+        number = 1
+        last_move = self.history[-1]
+        for i in range(self.dimension):
+            for j in range(self.dimension):
+                if number == last_move:
+                    self.board[i][j] = str(number)
+                number += 1
+
     def change_board(self, move_type):
+        self.history.append(move_type)
+
         # nie wiadomo czy działa
         for i in range(self.dimension):
             for j in range(self.dimension):
@@ -89,15 +99,15 @@ class TicTacToe():
                 return True
         if diag1_line or diag2_line:
             return True
-        if not self.possible_moves():
-            return False
+        # if not self.possible_moves():
+        #     return False
 
     def is_draw(self) -> bool:
         if not self.possible_moves():
             return True
 
     def eval_state(self) -> int:
-        if self.who_moves:
+        if self.sign == 'o':
             return 1
         else:
             return -1

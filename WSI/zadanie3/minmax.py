@@ -3,7 +3,7 @@ import copy
 
 def minmax(game, move, depth):
     stop_depth = 6
-    board = copy.deepcopy(game)
+    board = copy.deepcopy(game)  # super krindż
     board.change_board(move)
 
     if board.finished:

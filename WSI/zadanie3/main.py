@@ -18,10 +18,12 @@ def main():
     game.print_board()
 
     while not game.finished:
-        game.move()
+        game.ask_for_move()
         game.print_board()
     game.print_winner()
 
 
 if __name__ == "__main__":
     main()
+
+# dodać metodę cofającą ruch zamiast kopiowania całego obiektu
