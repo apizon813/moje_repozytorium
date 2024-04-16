@@ -1,0 +1,31 @@
+
+p{
+    color: red;
+}
+
+*{
+    color: blue;
+}
+
+body{
+    font-family:'Courier New', Courier, monospace;
+    background: rgb(214, 219, 157);
+}
+
+.main_heading{
+    color: red;
+    /* font-size: 50px; */
+    /* font-size: 200%; */
+    /* font-size: 5em; */
+    font-size: 2rem;
+    text-align: center;
+    border: 1px #000 solid;
+    border-radius: 1rem;
+}
+
+.main_div{
+    border: 1px #000 solid;
+    padding: 1rem;
+    margin: 1rem;
+    text-align: center;
+}

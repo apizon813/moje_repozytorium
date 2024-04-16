@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pierwszy_projekt": {
+    "pierwsza_strona": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pierwszy_projekt",
+            "outputPath": "dist/pierwsza_strona",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -57,10 +57,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "pierwszy_projekt:build:production"
+              "buildTarget": "pierwsza_strona:build:production"
             },
             "development": {
-              "buildTarget": "pierwszy_projekt:build:development"
+              "buildTarget": "pierwsza_strona:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -68,7 +68,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "pierwszy_projekt:build"
+            "buildTarget": "pierwsza_strona:build"
           }
         },
         "test": {
