@@ -75,7 +75,7 @@ def measure_depth(parameters):
     game.who_moves = who_starts
     minmax = MiniMax(pruning)
 
-    minmax(game, move, -2, 2)
+    minmax.eval(game, move, -2, 2)
     data = minmax.mean_depth()
     with open(path, 'w') as file:
         file.write(str(data))

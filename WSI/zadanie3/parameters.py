@@ -1,8 +1,8 @@
 PLAY_GAME = False
 
-MEASURE_TIME = True
+MEASURE_TIME = False
 
-MEASURE_DEPTH = False
+MEASURE_DEPTH = True
 
 
 PLAY_GAME_PARAMETERS = [
@@ -22,7 +22,7 @@ MEASURE_TIME_PARAMETERS = [
     who_starts := 1,
     measures_number := 10,
     save_data_path := './measured_time.txt',
-    pruning := True
+    pruning := False
 ]
 
 MEASURE_DEPTH_PARAMETERS = [
