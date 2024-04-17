@@ -15,12 +15,12 @@ def play_game(parameters):
     if player_max:
         player_max = Player()
     else:
-        player_max = Oponent(max=True)
+        player_max = Oponent(pruning=True, max=True)
 
     if player_min:
         player_min = Player()
     else:
-        player_min = Oponent(max=False)
+        player_min = Oponent(pruning=True, max=False)
 
     game = TicTacToe(
         dimension,
