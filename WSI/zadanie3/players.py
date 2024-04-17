@@ -10,33 +10,25 @@ class Player():
 
 class Oponent():
     def __init__(self, pruning=False, max=None) -> None:
-        self.pruning = pruning
+        self.minmax = MiniMax(pruning)
         self.max = max
 
     def move(self, game):
-        moves_values = {}
-        minmax = MiniMax(self.pruning)
+        moves = {}
         for move in game.possible_moves():
-            moves_values[move] = minmax.eval(game, move, -2, 2)
+            moves[move] = self.minmax.eval(game, move, -2, 2)
 
+        moves_best = []
+        move_best_value = self.best_value(moves.values())
+        for move in moves:
+            if moves[move] == move_best_value:
+                moves_best.append(move)
+        best_move = moves_best[0]
+        print(f'{game.signs[game.who_moves]} move > {best_move}')
+        return best_move
+
+    def best_value(self, values):
         if self.max:
-
-            best_moves = []
-            best_move_val = max(moves_values.values())
-            for move in moves_values:
-                if moves_values[move] == best_move_val:
-                    best_moves.append(move)
-            best_move = best_moves[0]
-            print(f'{game.signs[game.who_moves]} move > {best_move}')
-            return best_move
-
+            return max(values)
         else:
-            best_moves = []
-            best_move_val = min(moves_values.values())
-            for move in moves_values:
-                if moves_values[move] == best_move_val:
-                    best_moves.append(move)
-            best_move = best_moves[0]
-            print(f'{game.signs[game.who_moves]} move > {best_move}')
-
-            return best_move
+            return min(values)
