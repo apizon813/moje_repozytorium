@@ -1,4 +1,4 @@
-from minmax import minmax
+from minmax import MiniMax
 
 
 class Player():
@@ -9,13 +9,15 @@ class Player():
 
 
 class Oponent():
-    def __init__(self, max=None) -> None:
+    def __init__(self, pruning=False, max=None) -> None:
+        self.pruning = pruning
         self.max = max
 
     def move(self, game):
         moves_values = {}
+        minmax = MiniMax(self.pruning)
         for move in game.possible_moves():
-            moves_values[move] = minmax(game, move, 1)
+            moves_values[move] = minmax.eval(game, move, -2, 2)
 
         if self.max:
 

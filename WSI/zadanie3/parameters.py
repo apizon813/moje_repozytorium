@@ -1,4 +1,4 @@
-PLAY_GAME = False
+PLAY_GAME = True
 
 MEASURE_TIME = True
 
