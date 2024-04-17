@@ -51,7 +51,15 @@ def measure_time(parameters):
     data = []
     for i in range(measure_number):
         start = timer()
-        minmax(game, move)
+        minmax(
+            game=game,
+            move=move,
+            depth=1,
+            aggregate=False,
+            pruning=True,
+            alpha=-2,
+            beta=2
+            )
         end = timer()
         data.append(end - start)
 
