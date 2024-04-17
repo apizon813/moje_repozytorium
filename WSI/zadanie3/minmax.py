@@ -3,6 +3,7 @@ class MiniMax():
 
         self.depth = 1
         self.aggregate = []
+        self.nodes = 0
         self.pruning = pruning
 
     def eval(self, game, move, alpha=None, beta=None):
@@ -20,6 +21,7 @@ class MiniMax():
 
         for move in game.possible_moves():
             self.depth += 1
+            self.nodes += 1
             value = self.eval(game, move, alpha, beta)
 
             if game.who_moves:
@@ -46,3 +48,8 @@ class MiniMax():
 
     def mean_depth(self):
         return sum(self.aggregate) / len(self.aggregate)
+
+    def reset(self):
+        self.depth = 1
+        self.aggregate = []
+        self.nodes = 0

@@ -107,7 +107,7 @@ class TicTacToe():
         else:
             return -1
 
-    def possible_moves(self) -> int:
+    def possible_moves(self) -> list:
         moves = []
         for i in range(self.dimension):
             for j in range(self.dimension):

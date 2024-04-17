@@ -36,6 +36,58 @@ def play_game(parameters):
     game.print_winner()
 
 
+def save_measures(data, path):
+    with open(path, 'w') as file:
+        file.write('move,time,nodes,mean_depth\n')
+        for move in data:
+            time = data[move]['ex_time']
+            nodes = data[move]['nodes']
+            mean_depth = data[move]['mean_depth']
+            row = f'{move},{time},{nodes},{mean_depth}\n'
+            file.write(row)
+
+
+def time_measure(game, minmax, move, n):
+    data = []
+    for i in range(n):
+        start = timer()
+        minmax.eval(game, move)
+        end = timer()
+        minmax.reset()
+        data.append(end - start)
+        print(f'{i}: {end - start}')
+    mean_time = sum(data) / len(data)
+    return mean_time
+
+
+def measure_depth(game, minmax, move):
+    data = {}
+    minmax.eval(game, move)
+    data['mean_depth'] = minmax.mean_depth()
+    data['nodes'] = minmax.nodes
+    minmax.reset()
+    return data
+
+
+# move czas srednia_gl nodes
+
+def measure_starting_moves(parameters):
+    dimension = parameters[0]
+    measure_number = parameters[1]
+    path = parameters[2]
+
+    game = TicTacToe(dimension)
+    data = {}
+    for move in game.possible_moves():
+        data[move] = {}
+        minmax = MiniMax()
+        data_depth = measure_depth(game, minmax, move)
+        data_time = time_measure(game, minmax, move, measure_number)
+        data[move].update(data_depth)
+        data[move]['ex_time'] = data_time
+    save_measures(data, path)
+
+
 def measure_time(parameters):
     dimension = parameters[0]
     board = parameters[1]
@@ -60,22 +112,3 @@ def measure_time(parameters):
     with open(path, 'w') as file:
         for time in data:
             file.write(f'{time}\n')
-
-
-def measure_depth(parameters):
-    dimension = parameters[0]
-    board = parameters[1]
-    move = parameters[2]
-    who_starts = parameters[3]
-    path = parameters[4]
-    pruning = parameters[5]
-
-    game = TicTacToe(dimension)
-    game.board = board
-    game.who_moves = who_starts
-    minmax = MiniMax(pruning)
-
-    minmax.eval(game, move, -2, 2)
-    data = minmax.mean_depth()
-    with open(path, 'w') as file:
-        file.write(str(data))

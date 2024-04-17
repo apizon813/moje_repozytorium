@@ -25,6 +25,7 @@ class Oponent():
                 moves_best.append(move)
         best_move = moves_best[0]
         print(f'{game.signs[game.who_moves]} move > {best_move}')
+        self.minmax.reset()
         return best_move
 
     def best_value(self, values):
