@@ -5,7 +5,7 @@ from players import (
 )
 from minmax import MiniMax
 from timeit import default_timer as timer
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def play_game(parameters):
@@ -143,17 +143,17 @@ def measure_progress(parameters):
         data_with_pruning.append(end - start)
     print('to koniec')
 
-    # plot_times(path, data_no_pruning, data_with_pruning)
+    plot_times(path, data_no_pruning, data_with_pruning)
 
 
-# def plot_times(path, data_no_pruning, data_with_pruning):
-#     print('test1')
-#     fig, ax = plt.subplots()
-#     x = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-#     ax.plot(x, data_no_pruning, label='no pruning')
-#     ax.plot(x, data_with_pruning, label='with pruning')
-#     plt.xlabel('progress [move]')
-#     plt.ylabel('time [s]')
-#     ax.legend()
-#     print('test2')
-#     fig.savefig(path)
+def plot_times(path, data_no_pruning, data_with_pruning):
+    print('test1')
+    fig, ax = plt.subplots()
+    x = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    ax.plot(x, data_no_pruning, label='no pruning')
+    ax.plot(x, data_with_pruning, label='with pruning')
+    plt.xlabel('progress [move]')
+    plt.ylabel('time [s]')
+    ax.legend()
+    print('test2')
+    fig.savefig(path)
