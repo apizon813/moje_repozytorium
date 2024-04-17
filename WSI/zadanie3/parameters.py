@@ -1,4 +1,4 @@
-PLAY_GAME = True
+PLAY_GAME = False
 
 MEASURE_TIME = True
 
@@ -21,7 +21,8 @@ MEASURE_TIME_PARAMETERS = [
     move := '5',
     who_starts := 1,
     measures_number := 10,
-    save_data_path := './measured_time.txt'
+    save_data_path := './measured_time.txt',
+    pruning := True
 ]
 
 MEASURE_DEPTH_PARAMETERS = [
@@ -34,4 +35,5 @@ MEASURE_DEPTH_PARAMETERS = [
     move := '5',
     who_starts := 1,
     save_data_path := './measured_depth.txt',
+    pruning := True
 ]

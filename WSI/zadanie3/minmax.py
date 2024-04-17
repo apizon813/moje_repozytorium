@@ -5,9 +5,6 @@ class DepthAggregate():
     def add_depth(self, depth):
         self.aggregate.append(depth)
 
-    def mean_depth(self):
-        return sum(self.aggregate) / len(self.aggregate)
-
 
 class MiniMax():
     def __init__(self, pruning=False):
@@ -50,80 +47,83 @@ class MiniMax():
             self.depth -= 1
             return min_val
 
+    def mean_depth(self):
+        return sum(self.aggregate) / len(self.aggregate)
 
-def minmax(
-        game,
-        move,
-        depth=1,
-        aggregate=False,
-        pruning=False,
 
-        alpha=None,
-        beta=None
-        ):
+# def minmax(
+#         game,
+#         move,
+#         depth=1,
+#         aggregate=False,
+#         pruning=False,
 
-    game.change_board(move)
+#         alpha=None,
+#         beta=None
+#         ):
 
-    if game.finished:
-        state = game.state
-        game.undo()
-        if aggregate:
-            aggregate.add_depth(depth)
-            return state, aggregate
-        else:
-            return state
+#     game.change_board(move)
 
-    max_moves: bool = game.who_moves
+#     if game.finished:
+#         state = game.state
+#         game.undo()
+#         if aggregate:
+#             aggregate.add_depth(depth)
+#             return state, aggregate
+#         else:
+#             return state
 
-    possible_moves = game.possible_moves()
+#     max_moves: bool = game.who_moves
 
-    max_val = -2
-    min_val = 2
+#     possible_moves = game.possible_moves()
 
-    for move in possible_moves:
+#     max_val = -2
+#     min_val = 2
 
-        if aggregate:
-            value, aggregate = minmax(
-                game,
-                move,
-                depth + 1,
-                aggregate,
-                pruning,
-                alpha,
-                beta
-                )
-        else:
-            value = minmax(
-                game,
-                move,
-                depth + 1,
-                aggregate,
-                pruning,
-                alpha,
-                beta
-                )
+#     for move in possible_moves:
 
-        if max_moves:
-            max_val = max(max_val, value)
-            if pruning:
-                alpha = max(alpha, value)
-                if beta <= alpha:
-                    break
-        else:
-            min_val = min(min_val, value)
-            if pruning:
-                beta = min(beta, value)
-                if beta <= alpha:
-                    break
+#         if aggregate:
+#             value, aggregate = minmax(
+#                 game,
+#                 move,
+#                 depth + 1,
+#                 aggregate,
+#                 pruning,
+#                 alpha,
+#                 beta
+#                 )
+#         else:
+#             value = minmax(
+#                 game,
+#                 move,
+#                 depth + 1,
+#                 aggregate,
+#                 pruning,
+#                 alpha,
+#                 beta
+#                 )
 
-    if max_moves:
-        result = max_val
-    else:
-        result = min_val
+#         if max_moves:
+#             max_val = max(max_val, value)
+#             if pruning:
+#                 alpha = max(alpha, value)
+#                 if beta <= alpha:
+#                     break
+#         else:
+#             min_val = min(min_val, value)
+#             if pruning:
+#                 beta = min(beta, value)
+#                 if beta <= alpha:
+#                     break
 
-    if aggregate:
-        game.undo()
-        return result, aggregate
-    else:
-        game.undo()
-        return result
+#     if max_moves:
+#         result = max_val
+#     else:
+#         result = min_val
+
+#     if aggregate:
+#         game.undo()
+#         return result, aggregate
+#     else:
+#         game.undo()
+#         return result
