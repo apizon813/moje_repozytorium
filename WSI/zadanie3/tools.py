@@ -1,14 +1,16 @@
 from timeit import default_timer as timer
+import statistics
 
 
 def save_starting_moves(data, path):
     with open(path, 'w') as file:
-        file.write('move,time,nodes,mean_depth\n')
+        file.write('move,time,stdev,nodes,mean_depth\n')
         for move in data:
             time = data[move]['time']
+            stdev = data[move]['stdev']
             nodes = data[move]['nodes']
             mean_depth = data[move]['mean_depth']
-            row = f'{move},{time},{nodes},{mean_depth}\n'
+            row = f'{move},{time},{stdev},{nodes},{mean_depth}\n'
             file.write(row)
 
 
@@ -21,8 +23,9 @@ def time_measure(game, minmax, move, n, alpha=None, beta=None):
         minmax.reset()
         data.append(end - start)
         print(f'{i}: {end - start}')
+    stdev = statistics.stdev(data)
     mean_time = sum(data) / len(data)
-    return mean_time
+    return mean_time, stdev
 
 
 def measure_depth(game, minmax, move, alpha=None, beta=None):

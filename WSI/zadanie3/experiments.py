@@ -55,9 +55,10 @@ def measure_starting_moves(parameters):
         data[move] = {}
         minmax = MiniMax()
         data_depth = measure_depth(game, minmax, move)
-        data_time = time_measure(game, minmax, move, measure_number)
+        data_time, data_dev = time_measure(game, minmax, move, measure_number)
         data[move].update(data_depth)
         data[move]['time'] = data_time
+        data[move]['stdev'] = data_dev
     save_starting_moves(data, path)
 
     game = TicTacToe(dimension)
@@ -68,7 +69,7 @@ def measure_starting_moves(parameters):
         data[move] = {}
         minmax = MiniMax(True)
         data_depth = measure_depth(game, minmax, move, alpha, beta)
-        data_time = time_measure(
+        data_time, data_dev = time_measure(
             game,
             minmax,
             move,
@@ -78,6 +79,8 @@ def measure_starting_moves(parameters):
             )
         data[move].update(data_depth)
         data[move]['time'] = data_time
+        data[move]['stdev'] = data_dev
+
     path = path[:-4] + '_pruning' + path[-4:]
     save_starting_moves(data, path)
 
@@ -120,7 +123,6 @@ def measure_progress(parameters):
 
 
 def plot_times(path, data_no_pruning, data_with_pruning):
-    print('test1')
     fig, ax = plt.subplots()
     x = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     ax.plot(x, data_no_pruning, label='no pruning')
@@ -129,5 +131,4 @@ def plot_times(path, data_no_pruning, data_with_pruning):
     plt.ylabel('time [s]')
     ax.legend()
     ax.set_yscale('log')
-    print('test2')
     fig.savefig(path)

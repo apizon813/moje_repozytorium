@@ -1,6 +1,6 @@
 PLAY_GAME = False
 
-MEASURE_STARTING_MOVES = False
+MEASURE_STARTING_MOVES = True
 
 MEASURE_PROGRESS = True
 
@@ -13,13 +13,13 @@ PLAY_GAME_PARAMETERS = [
 
 MEASURE_STARTING_MOVES_PARAMETERS = [
     dimension := 3,
-    measures_number := 2,
-    save_data_path := './results/measured_time.txt',
+    measures_number := 10,
+    save_data_path := './results/starting_moves.txt',
 ]
 
 MEASURE_PROGRESS_PARAMETERS = [
     dimension := 3,
-    save_plot_path := './plots/time_plot.png',
+    save_plot_path := './plots/progress_plot.png',
     measure_number := 10,
     save_times_path := './results/progress_times.txt'
 ]
