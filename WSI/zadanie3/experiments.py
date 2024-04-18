@@ -5,7 +5,7 @@ from players import (
 )
 from minmax import MiniMax
 from timeit import default_timer as timer
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def play_game(parameters):
@@ -108,52 +108,69 @@ def measure_starting_moves(parameters):
     save_measures(data, path)
 
 
+def mean_values(data: list[list]) -> list:
+    length = len(data[0])
+    mean = []
+
+    for i in range(length):
+        sum = 0
+        for points in data:
+            sum += points[i]
+        mean.append(sum / len(data))
+    return mean
+
+
+def measure_times_no_pruning(game):
+    data = []
+    while not game.finished:
+        start = timer()
+        game.ask_for_move()
+        end = timer()
+        data.append(end - start)
+    return data
+
+
 def measure_progress(parameters):
     dimension = parameters[0]
     path = parameters[1]
+    number = parameters[2]
 
-    player_max = Oponent(max=True)
-    player_min = Oponent(max=False)
-    game = TicTacToe(
-        dimension,
-        player_max,
-        player_min
-    )
+    data_set = []
+    for i in range(number):
+        player_max = Oponent(max=True)
+        player_min = Oponent(max=False)
+        game = TicTacToe(
+            dimension,
+            player_max,
+            player_min
+        )
+        data_set.append(measure_times_no_pruning(game))
+    data_no_pruning = mean_values(data_set)
 
-    data_no_pruning = []
-    while not game.finished:
-        start = timer()
-        game.ask_for_move()
-        end = timer()
-        data_no_pruning.append(end - start)
+    data_set = []
+    for i in range(number):
+        player_max = Oponent(pruning=True, max=True)
+        player_min = Oponent(pruning=True, max=False)
+        game = TicTacToe(
+            dimension,
+            player_max,
+            player_min
+        )
+        data_set.append(measure_times_no_pruning(game))
+    data_with_pruning = mean_values(data_set)
 
-    player_max = Oponent(pruning=True, max=True)
-    player_min = Oponent(pruning=True, max=False)
-    game = TicTacToe(
-        dimension,
-        player_max,
-        player_min
-    )
-
-    data_with_pruning = []
-    while not game.finished:
-        start = timer()
-        game.ask_for_move()
-        end = timer()
-        data_with_pruning.append(end - start)
-    print('to koniec')
-
-    # plot_times(path, data_no_pruning, data_with_pruning)
+    plot_times(path, data_no_pruning, data_with_pruning)
 
 
-# def plot_times(path, data_no_pruning, data_with_pruning):
-#     print('test1')
-#     fig, ax = plt.subplots()
-#     x = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-#     ax.plot(x, data_no_pruning, label='no pruning')
-#     ax.plot(x, data_with_pruning, label='with pruning')
-#     plt.xlabel('progress [move]')
-#     plt.ylabel('time [s]')
-#     ax.legend()
-#     print('test2')
-#     fig.savefig(path)
+def plot_times(path, data_no_pruning, data_with_pruning):
+    print('test1')
+    fig, ax = plt.subplots()
+    x = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    ax.plot(x, data_no_pruning, label='no pruning')
+    ax.plot(x, data_with_pruning, label='with pruning')
+    plt.xlabel('progress [move]')
+    plt.ylabel('time [s]')
+    ax.legend()
+    ax.set_yscale('log')
+    print('test2')
+    fig.savefig(path)
