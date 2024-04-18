@@ -3,7 +3,7 @@ from players import (
     Oponent,
     Player
 )
-from minmax import MiniMax
+from minmax import MinMax
 import matplotlib.pyplot as plt
 from tools import (
     measure_depth,
@@ -47,42 +47,100 @@ def play_game(parameters):
 def measure_starting_moves(parameters):
     dimension = parameters[0]
     measure_number = parameters[1]
-    path = parameters[2]
+    path_nopr = parameters[2]
+    path_pr = path_nopr[:-4] + '_pruning' + path_nopr[-4:]
 
     game = TicTacToe(dimension)
-    data = {}
+    data_nopr = {}
+    data_pr = {}
     for move in game.possible_moves():
-        data[move] = {}
-        minmax = MiniMax()
-        data_depth = measure_depth(game, minmax, move)
-        data_time, data_dev = time_measure(game, minmax, move, measure_number)
-        data[move].update(data_depth)
-        data[move]['time'] = data_time
-        data[move]['stdev'] = data_dev
-    save_starting_moves(data, path)
+        data_nopr[move] = {}
+        data_pr[move] = {}
 
-    game = TicTacToe(dimension)
-    data = {}
-    alpha = -2
-    beta = 2
-    for move in game.possible_moves():
-        data[move] = {}
-        minmax = MiniMax(True)
-        data_depth = measure_depth(game, minmax, move, alpha, beta)
-        data_time, data_dev = time_measure(
+        minmax_nopr = MinMax()
+        minmax_pr = MinMax(True)
+
+        data_nopr_depth = measure_depth(game, minmax_nopr, move)
+        data_pr_depth = measure_depth(game, minmax_nopr, move, -2, 2)
+
+        data_nopr_time, data_nopr_dev = time_measure(
             game,
-            minmax,
+            minmax_nopr,
+            move,
+            measure_number
+            )
+        data_pr_time, data_pr_dev = time_measure(
+            game,
+            minmax_pr,
+            move,
+            measure_number
+            )
+
+        data_nopr[move].update(data_nopr_depth)
+        data_nopr[move]['time'] = data_nopr_time
+        data_nopr[move]['stdev'] = data_nopr_dev
+
+        data_pr[move].update(data_pr_depth)
+        data_pr[move]['time'] = data_pr_time
+        data_pr[move]['stdev'] = data_pr_dev
+
+    save_starting_moves(data_nopr, path_nopr)
+    save_starting_moves(data_pr, path_pr)
+
+
+def measure_middle_game(parameters):
+    dimension = parameters[0]
+    measure_number = parameters[1]
+    path_nopr = parameters[2]
+    path_pr = path_nopr[:-4] + '_pruning' + path_nopr[-4:]
+    states = [
+        parameters[3],
+        parameters[4],
+        parameters[5]
+    ]
+
+    game = TicTacToe(dimension)
+    data_nopr = {}
+    data_pr = {}
+    for index, state in enumerate(states):
+        data_nopr[index] = {}
+        data_pr[index] = {}
+
+        game.board = state['board']
+        game.who_moves = state['who_moves']
+        move = state['move']
+
+        minmax_nopr = MinMax()
+        minmax_pr = MinMax(True)
+
+        data_nopr_depth = measure_depth(game, minmax_nopr, move)
+        data_pr_depth = measure_depth(game, minmax_nopr, move, -2, 2)
+
+        data_nopr_time, data_nopr_dev = time_measure(
+            game,
+            minmax_nopr,
+            move,
+            measure_number
+            )
+        data_pr_time, data_pr_dev = time_measure(
+            game,
+            minmax_pr,
             move,
             measure_number,
-            alpha,
-            beta
+            -2,
+            2
             )
-        data[move].update(data_depth)
-        data[move]['time'] = data_time
-        data[move]['stdev'] = data_dev
 
-    path = path[:-4] + '_pruning' + path[-4:]
-    save_starting_moves(data, path)
+        data_nopr[index].update(data_nopr_depth)
+        data_nopr[index]['time'] = data_nopr_time
+        data_nopr[index]['stdev'] = data_nopr_dev
+
+        data_pr[index].update(data_pr_depth)
+        data_pr[index]['time'] = data_pr_time
+        data_pr[index]['stdev'] = data_pr_dev
+
+    save_starting_moves(data_nopr, path_nopr)
+    save_starting_moves(data_pr, path_pr)
 
 
 def measure_progress(parameters):

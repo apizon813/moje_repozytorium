@@ -1,4 +1,4 @@
-class MiniMax():
+class MinMax():
     def __init__(self, pruning=False):
 
         self.depth = 1
