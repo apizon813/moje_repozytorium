@@ -4,8 +4,15 @@ from players import (
     Player
 )
 from minmax import MiniMax
-from timeit import default_timer as timer
 import matplotlib.pyplot as plt
+from tools import (
+    measure_depth,
+    time_measure,
+    save_starting_moves,
+    measure_times_no_pruning,
+    mean_values,
+    save_progress_times
+)
 
 
 def play_game(parameters):
@@ -37,39 +44,6 @@ def play_game(parameters):
     game.print_winner()
 
 
-def save_measures(data, path):
-    with open(path, 'w') as file:
-        file.write('move,time,nodes,mean_depth\n')
-        for move in data:
-            time = data[move]['time']
-            nodes = data[move]['nodes']
-            mean_depth = data[move]['mean_depth']
-            row = f'{move},{time},{nodes},{mean_depth}\n'
-            file.write(row)
-
-
-def time_measure(game, minmax, move, n, alpha=None, beta=None):
-    data = []
-    for i in range(n):
-        start = timer()
-        minmax.eval(game, move, alpha, beta)
-        end = timer()
-        minmax.reset()
-        data.append(end - start)
-        print(f'{i}: {end - start}')
-    mean_time = sum(data) / len(data)
-    return mean_time
-
-
-def measure_depth(game, minmax, move, alpha=None, beta=None):
-    data = {}
-    minmax.eval(game, move, alpha, beta)
-    data['mean_depth'] = minmax.mean_depth()
-    data['nodes'] = minmax.nodes
-    minmax.reset()
-    return data
-
-
 def measure_starting_moves(parameters):
     dimension = parameters[0]
     measure_number = parameters[1]
@@ -84,7 +58,7 @@ def measure_starting_moves(parameters):
         data_time = time_measure(game, minmax, move, measure_number)
         data[move].update(data_depth)
         data[move]['time'] = data_time
-    save_measures(data, path)
+    save_starting_moves(data, path)
 
     game = TicTacToe(dimension)
     data = {}
@@ -105,35 +79,14 @@ def measure_starting_moves(parameters):
         data[move].update(data_depth)
         data[move]['time'] = data_time
     path = path[:-4] + '_pruning' + path[-4:]
-    save_measures(data, path)
-
-
-def mean_values(data: list[list]) -> list:
-    length = len(data[0])
-    mean = []
-
-    for i in range(length):
-        sum = 0
-        for points in data:
-            sum += points[i]
-        mean.append(sum / len(data))
-    return mean
-
-
-def measure_times_no_pruning(game):
-    data = []
-    while not game.finished:
-        start = timer()
-        game.ask_for_move()
-        end = timer()
-        data.append(end - start)
-    return data
+    save_starting_moves(data, path)
 
 
 def measure_progress(parameters):
     dimension = parameters[0]
-    path = parameters[1]
+    plot_path = parameters[1]
     number = parameters[2]
+    results_path = parameters[3]
 
     data_set = []
     for i in range(number):
@@ -145,6 +98,7 @@ def measure_progress(parameters):
             player_min
         )
         data_set.append(measure_times_no_pruning(game))
+    save_progress_times(data_set, results_path)
     data_no_pruning = mean_values(data_set)
 
     data_set = []
@@ -157,9 +111,12 @@ def measure_progress(parameters):
             player_min
         )
         data_set.append(measure_times_no_pruning(game))
+
+    results_path = results_path[:-4] + '_pruning' + results_path[-4:]
+    save_progress_times(data_set, results_path)
     data_with_pruning = mean_values(data_set)
 
-    plot_times(path, data_no_pruning, data_with_pruning)
+    plot_times(plot_path, data_no_pruning, data_with_pruning)
 
 
 def plot_times(path, data_no_pruning, data_with_pruning):
