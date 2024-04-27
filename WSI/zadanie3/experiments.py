@@ -114,7 +114,7 @@ def measure_middle_game(parameters):
         minmax_pr = MinMax(True)
 
         data_nopr_depth = measure_depth(game, minmax_nopr, move)
-        data_pr_depth = measure_depth(game, minmax_nopr, move, -2, 2)
+        data_pr_depth = measure_depth(game, minmax_pr, move, -2, 2)
 
         data_nopr_time, data_nopr_dev = time_measure(
             game,
