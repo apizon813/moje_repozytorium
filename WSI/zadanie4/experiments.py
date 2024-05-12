@@ -1,8 +1,9 @@
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+from sklearn.metrics import classification_report
 
 
-def experiment1(bankdata):
+def experiment1(pars, bankdata):
     '''
     eksperyment dotyczący siły regularyzacji
     '''
@@ -13,4 +14,4 @@ def experiment1(bankdata):
     svclassifier = SVC(kernel='linear')
     svclassifier.fit(x_train, y_train)
     y_pred = svclassifier.predict(x_test)
-    print(y_pred)
+    print(classification_report(y_test, y_pred))
