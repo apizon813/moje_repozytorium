@@ -10,7 +10,7 @@ def main():
 
     data_path = args['data_path']
     bankdata = tools.load_databank(data_path)
-    exp.experiment1(bankdata)
+    exp.experiment1(args, bankdata)
 
 
 if __name__ == '__main__':
