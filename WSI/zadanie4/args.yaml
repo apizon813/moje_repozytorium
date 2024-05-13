@@ -1,1 +1,10 @@
 data_path: 'iris/iris.data'
+
+svm_results_path: 'results/svm/'
+
+tree_results_path: 'results/tree/'
+
+linearization:
+  - 0.1
+  - 1
+  - 10
