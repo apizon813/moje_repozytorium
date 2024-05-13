@@ -8,3 +8,14 @@ linearization:
   - 0.1
   - 1
   - 10
+
+kernel:
+  - linear
+  - poly
+  - rbf
+  - sigmoid
+
+iterations:
+  - 10
+  - 100
+  - 1000
