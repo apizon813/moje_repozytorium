@@ -1,14 +1,11 @@
 <div class="page">
-    <div class="w3-top">
-        <div class="w3-bar w3-white w3-card">
-            <app-header></app-header>
-        </div>
-
+    <div class="header">
+        <app-header></app-header>
     </div>
-
-    <hr class="all">
-    <router-outlet class="all"></router-outlet>
-    <hr class="all">
-    <app-footer class="all"></app-footer>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+    <hr>
+    <app-footer></app-footer>
 </div>
 

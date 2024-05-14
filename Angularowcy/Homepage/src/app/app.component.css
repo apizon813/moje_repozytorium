@@ -3,3 +3,15 @@
     height: 100%;
     font-family: 'Raleway', sans-serif
 }
+
+.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: white;
+
+}
+
+.main {
+    margin-top: 60px;
+}
