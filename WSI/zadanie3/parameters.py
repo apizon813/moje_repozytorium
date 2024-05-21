@@ -4,6 +4,8 @@ MEASURE_STARTING_MOVES = False
 
 MEASURE_MIDDLE_GAME = False
 
+MEASURE_PROGRESS = False
+
 
 PLAY_GAME_PARAMETERS = [
     dimension := 3,
