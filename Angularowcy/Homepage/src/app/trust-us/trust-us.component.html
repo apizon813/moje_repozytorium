@@ -1,0 +1,35 @@
+<div class="trusted-section">
+  <div class="title">
+    <h1>Zaufali nam:</h1>
+  </div>
+  <div class="trusted-container">
+    <div class="trusted-item" [class.active]="currentIndex === 0">
+      <img src="assets/logo1.png" alt="Firma 1" />
+    </div>
+    <div class="trusted-item" [class.active]="currentIndex === 1">
+      <img src="assets/logo2.png" alt="Firma 2" />
+    </div>
+    <div class="trusted-item" [class.active]="currentIndex === 2">
+      <img src="assets/logo3.png" alt="Firma 3" />
+    </div>
+  </div>
+  <div class="description">
+    <div [class.active]="currentIndex === 0">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. At quos
+      aspernatur nemo aperiam corporis neque quibusdam temporibus, minima enim
+      voluptatum adipisci eligendi, consequatur iste explicabo mollitia facilis
+      officiis. Praesentium, ex.
+    </div>
+    <div [class.active]="currentIndex === 1">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa possimus,
+      dignissimos fuga aspernatur voluptatem accusantium neque corrupti est nam
+      unde dolor et numquam error esse animi laudantium, nisi temporibus cumque.
+    </div>
+    <div [class.active]="currentIndex === 2">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur fugiat
+      aliquam tenetur velit, repellendus quisquam ab, facere accusantium
+      repellat iusto reprehenderit, tempora expedita id sint tempore animi
+      officiis consequatur sit.
+    </div>
+  </div>
+</div>

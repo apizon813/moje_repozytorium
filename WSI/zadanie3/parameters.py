@@ -9,7 +9,7 @@ MEASURE_PROGRESS = False
 
 PLAY_GAME_PARAMETERS = [
     dimension := 3,
-    player_max := True,
+    player_max := False,
     player_min := False
 ]
 
