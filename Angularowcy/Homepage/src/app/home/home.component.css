@@ -1,6 +1,56 @@
-.bgimg1 {
+header {
+    display: flex;
     background-position: center;
     background-size: cover;
-    background-image: url("/assets/bgimg2.jpg");
+    background-image: url("/assets/stock2.jpg");
     min-height: 800px;
+}
+
+.call_to_action {
+    margin-left: 10%;
+    margin-top: 15%;
+    color: white;
+}
+
+.call1 {
+    font-size: 46px;
+}
+
+.call2 {
+    font-size: 24px;
+}
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.column {
+    text-align: justify;
+    padding: 24px;
+}
+
+.column h4 {
+    text-align: center;
+}
+
+.comment {
+    text-align: center;
+}
+
+.container {
+    margin-top: 128px;
+    margin-bottom: 128px;
+}
+
+
+.center {
+    text-align: center;
+}
+
+.big-icon {
+    padding-bottom: 16px;
+    color: #FF5722;
 }

@@ -1,0 +1,42 @@
+.trusted-section {
+    text-align: center;
+    margin: 128px 0px;
+}
+
+.trusted-container {
+    position: relative;
+    height: 200px;
+    margin: 30px auto;
+}
+
+.trusted-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.trusted-item.active {
+    opacity: 1;
+}
+
+.description {
+    width: 400px;
+    margin: 30px auto;
+    text-align: justify;
+}
+
+.description div {
+    display: none;
+}
+
+.description div.active {
+    display: block;
+}
+
+img {
+    height: 100%;;
+}

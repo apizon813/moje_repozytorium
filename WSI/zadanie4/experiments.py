@@ -1,88 +1,128 @@
 from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.svm import SVC
-from sklearn import metrics
-import numpy as np
+from tools import Metrics
 
 
-def save_results(results):
-    pass
+def save_results(data, path, param_name, param_value):
+    path = f'{path}{param_name}_{param_value}'
+    data.to_csv(path, index=True)
 
 
 def experiment1(args, bankdata):
     '''
     eksperyment dotyczący siły regularyzacji
     '''
-    x = bankdata.drop('class', axis=1)
+    X = bankdata.drop('class', axis=1)
     y = bankdata['class']
 
     scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
 
-    scores_precision = []
-    scores_accuracy = []
-    scores_recall = []
-    scores_f1 = []
+    metrics = Metrics()
 
-    pred_precision = []
-    pred_accuracy = []
-    pred_recall = []
-    pred_f1 = []
+    for linearization_value in args['linearization']:
+        for seed in range(3):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X,
+                y,
+                test_size=0.2,
+                random_state=seed
+                )
+            clf = SVC(
+                C=linearization_value,
+                kernel='linear',
+                random_state=seed
+                )
+            scores = cross_validate(clf, X, y, scoring=scoring)
+            metrics.update_cv(scores)
 
-    for seed in range(3):
-        x_train, x_test, y_train, y_test = train_test_split(
-            x,
-            y,
-            test_size=0.2,
-            random_state=seed
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(
+            data=results,
+            path=args['svm_results_path'],
+            param_name='linearization',
+            param_value=linearization_value
             )
-        clf = SVC(kernel='linear', random_state=seed)
-        scores = cross_validate(clf, x, y, scoring=scoring)
 
-        scores_precision.append(scores['test_precision_macro'])
-        scores_accuracy.append(scores['test_accuracy'])
-        scores_recall.append(scores['test_recall_macro'])
-        scores_f1.append(scores['test_f1_macro'])
 
-        clf.fit(x_train, y_train)
-        y_pred = clf.predict(x_test)
+def experiment2(args, bankdata):
+    '''
+    eksperyment dotyczący funkcji jądra
+    '''
+    X = bankdata.drop('class', axis=1)
+    y = bankdata['class']
 
-        pred_precision.append(metrics.precision_score(
-            y_test,
-            y_pred,
-            average='macro'
-            ))
-        pred_accuracy.append(metrics.accuracy_score(
-            y_test,
-            y_pred,
-            average='macro'
-            ))
-        pred_recall.append(metrics.recall_score(
-            y_test,
-            y_pred,
-            average='macro'
-            ))
-        pred_f1.append(metrics.f1_score(
-            y_test,
-            y_pred,
-            average='macro'
-            ))
+    scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
 
-    results = {
-        'precision_cross_validate': {
-            'mean': np.mean(scores_precision),
-            'dev': np.std(scores_precision)
-        },
-        'accuracy_cross_validate': {
-            'mean': np.mean(scores_accuracy),
-            'dev': np.std(scores_accuracy)
-        },
-        'recall_cross_validate': {
-            'mean': np.mean(scores_recall),
-            'dev': np.std(scores_recall)
-        },
-        'f1_cross_validate': {
-            'mean': np.mean(scores_f1),
-            'dev': np.std(scores_f1)
-        },
-    }
+    metrics = Metrics()
 
-    save_results(results)
+    for kernel_function in args['kernel']:
+        for seed in range(3):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X,
+                y,
+                test_size=0.2,
+                random_state=seed
+                )
+            clf = SVC(
+                kernel=kernel_function,
+                random_state=seed
+                )
+            scores = cross_validate(clf, X, y, scoring=scoring)
+            metrics.update_cv(scores)
+
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(
+            data=results,
+            path=args['svm_results_path'],
+            param_name='kernel',
+            param_value=kernel_function
+            )
+
+
+def experiment3(args, bankdata):
+    '''
+    eksperyment dotyczący liczby iteracji
+    '''
+    X = bankdata.drop('class', axis=1)
+    y = bankdata['class']
+
+    scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
+
+    metrics = Metrics()
+
+    for max_iterations in args['iterations']:
+        for seed in range(3):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X,
+                y,
+                test_size=0.2,
+                random_state=seed
+                )
+            clf = SVC(
+                tol=1e-16,
+                max_iter=max_iterations,
+                kernel='linear',
+                random_state=seed
+                )
+            scores = cross_validate(clf, X, y, scoring=scoring)
+            metrics.update_cv(scores)
+
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(
+            data=results,
+            path=args['svm_results_path'],
+            param_name='iterations',
+            param_value=max_iterations
+            )
