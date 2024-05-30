@@ -52,5 +52,9 @@ header {
 
 .big-icon {
     padding-bottom: 16px;
-    color: #FF5722;
+    color: #7B1FA2;
+}
+
+.section {
+    margin: 128px 0px;
 }
