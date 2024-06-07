@@ -5,12 +5,11 @@ run_exp_a: True
 run_exp_g: False
 run_exp_e: False
 
-exp_a_episodes: 1500
+exp_a_episodes: 12000
 exp_a_g_value: 0.9
 exp_a_e_value: 0.0001
 
 a_values:
-  - 0.1
   - 0.9
 
 g_values:
@@ -25,4 +24,4 @@ e_decay_values:
 
 seeds:
   - 40
-  - 41
+  # - 41
