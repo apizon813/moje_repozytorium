@@ -2,10 +2,28 @@ import gymnasium as gym
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import yaml
 
 
-def experiment_a():
-    pass
+def experiment_a(args, seed):
+    episodes = args['exp_a_episodes']
+    a_values = args['a_values']
+    g_value = args['exp_a_g_value']
+    decay_rate = args['exp_a_e_value']
+    path = args['results_path']
+    path += f'seed_{str(seed)}"/"'
+
+    for a_value in a_values:
+
+        path += f"a_{str(a_value).replace('.', '')}"
+        run(
+            episodes=episodes,
+            seed=seed,
+            a=a_value,
+            g=g_value,
+            decay_rate=decay_rate,
+            path=path
+        )
 
 
 def experiment_g():
@@ -97,5 +115,16 @@ def run(
     save_q(path, q)
 
 
+def main():
+    with open('arguments.yaml', 'r') as file:
+        args = yaml.safe_load(file)
+    seeds = args['seeds']
+
+    for seed in seeds:
+        experiment_a(args, seed)
+        experiment_g(args, seed)
+        experiment_e(args, seed)
+
+
 if __name__ == "__main__":
-    run(15000)
+    main()

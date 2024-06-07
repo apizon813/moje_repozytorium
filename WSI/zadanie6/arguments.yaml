@@ -1,4 +1,8 @@
-data_path: 'results/'
+results_path: 'results/'
+
+exp_a_episodes: 150000
+exp_a_g_value: 0.9
+exp_a_e_value: 0.0001
 
 a_values:
   - 0.1
@@ -14,3 +18,10 @@ e_decay_values:
   - 0.0001
   - 0.001
   - 0.01
+
+seeds:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
