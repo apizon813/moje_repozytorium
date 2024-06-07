@@ -16,6 +16,22 @@ def experiment_e():
     pass
 
 
+def save_plot(path, size, rewards):
+    episodes = len(rewards)
+    sum_rewards = np.zeros(episodes)
+    for t in range(episodes):
+        start = max(0, t - size + 1)
+        end = t + 1
+        sum_rewards[t] = np.sum(rewards[start:end])
+    plt.plot(sum_rewards)
+    plt.savefig(f"{path}.png")
+
+
+def save_q(path, q):
+    df = pd.DataFrame(q)
+    df.to_csv(f"{path}.csv")
+
+
 def run(
     episodes, seed, a, g, decay_rate, path, is_training=True, render=False
 ):
@@ -72,17 +88,13 @@ def run(
 
     env.close()
 
-    sum_rewards = np.zeros(episodes)
-    for t in range(episodes):
-        start = max(0, t - 100)
-        end = t + 1
-        sum_rewards[t] = np.sum(reward_per_episode[start:end])
+    save_plot(
+        path=path,
+        size=100,
+        rewards=reward_per_episode
+        )
 
-    plt.plot(sum_rewards)
-    plt.savefig(f"{path}.png")
-
-    df = pd.DataFrame(q)
-    df.to_csv(f"{path}.csv")
+    save_q(path, q)
 
 
 if __name__ == "__main__":
