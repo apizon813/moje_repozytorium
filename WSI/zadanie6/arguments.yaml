@@ -1,4 +1,5 @@
 results_path: "results/"
+t_size: 100
 
 run_exp_a: True
 run_exp_g: False
