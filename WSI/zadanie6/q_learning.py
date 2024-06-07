@@ -9,7 +9,7 @@ def run(
     env = gym.make(
         "FrozenLake-v1",
         map_name="8x8",
-        is_slippery=False,
+        is_slippery=True,
         render_mode="human" if render else None,
     )
 
@@ -23,8 +23,9 @@ def run(
     rng = np.random.default_rng()
     reward_per_episode = np.zeros(episodes)
 
-    for i in range(episodes):
-        observation, _ = env.reset(seed=1)
+    for episode in range(episodes):
+        observation, _ = env.reset(seed=seed)
+
         terminated = False
         truncated = False
 
@@ -54,10 +55,10 @@ def run(
             learning_rate_a = 0.0001
 
         if reward == 1:
-            reward_per_episode[i] = 1
+            reward_per_episode[episode] = 1
 
         if verbose:
-            print(i)
+            print(episode)
 
     env.close()
     if verbose:

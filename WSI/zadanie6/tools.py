@@ -4,6 +4,7 @@ import numpy as np
 
 
 def save_plot(path, size, rewards):
+    plt.cla()
     episodes = len(rewards)
     sum_rewards = np.zeros(episodes)
     for t in range(episodes):

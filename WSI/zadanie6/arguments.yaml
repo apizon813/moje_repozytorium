@@ -1,15 +1,18 @@
 results_path: "results/"
-t_size: 100
+t_size: 50
 
 run_exp_a: True
 run_exp_g: False
 run_exp_e: False
 
-exp_a_episodes: 12000
+exp_a_episodes: 15000
 exp_a_g_value: 0.9
 exp_a_e_value: 0.0001
 
 a_values:
+  # - 0.3
+  # - 0.5
+  # - 0.7
   - 0.9
 
 g_values:
@@ -25,3 +28,6 @@ e_decay_values:
 seeds:
   - 40
   # - 41
+  # - 42
+  # - 43
+  # - 44
