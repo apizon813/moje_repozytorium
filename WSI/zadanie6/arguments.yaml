@@ -1,23 +1,32 @@
 results_path: "results/"
-t_size: 50
+t_size: 10
 
-run_exp_a: True
-run_exp_g: False
+run_exp_a: False
+run_exp_g: True
 run_exp_e: False
 
-exp_a_episodes: 15000
+save_exp_a_plot: False
+save_exp_g_plot: False
+save_exp_e_plot: False
+
+exp_a_episodes: 10000
 exp_a_g_value: 0.9
 exp_a_e_value: 0.0001
 
+exp_g_episodes: 10000
+exp_g_a_value: 0.9
+exp_g_e_value: 0.0001
+
 a_values:
-  # - 0.3
-  # - 0.5
-  # - 0.7
-  - 0.9
+  # - 0.1
+  # - 0.4
+  # - 0.6
+  # - 0.9
 
 g_values:
   - 0.1
-  - 0.5
+  - 0.4
+  - 0.6
   - 0.9
 
 e_decay_values:
@@ -27,7 +36,7 @@ e_decay_values:
 
 seeds:
   - 40
-  # - 41
-  # - 42
-  # - 43
-  # - 44
+  - 41
+  - 42
+  - 43
+  - 44
