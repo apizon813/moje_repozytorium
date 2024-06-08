@@ -43,7 +43,7 @@ def experiment_g(args):
     path += 'exp_g/'
 
     for g_value in g_values:
-        path_g_value = path + f"g_{str(a_value).replace('.', '')}/"
+        path_g_value = path + f"g_{str(g_value).replace('.', '')}"
         Path(path_g_value).mkdir(parents=True, exist_ok=True)
 
         for seed in seeds:
@@ -56,8 +56,8 @@ def experiment_g(args):
                 decay_rate=decay_rate,
             )
 
-            rewards_path = path_g_value + f'seed_{seed}_rewards'
-            q_path = path_g_value + f'seed_{seed}_q'
+            rewards_path = path_g_value + f'/seed_{seed}_rewards'
+            q_path = path_g_value + f'/seed_{seed}_q'
             save_to_csv(rewards_path, rewards)
             save_to_csv(q_path, q)
     print('success')

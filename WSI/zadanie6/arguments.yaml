@@ -1,11 +1,12 @@
 results_path: "results/"
 t_size: 10
+episodes: 10000
 
 run_exp_a: False
-run_exp_g: True
+run_exp_g: False
 run_exp_e: False
 
-save_exp_a_plot: False
+save_exp_a_plot: True
 save_exp_g_plot: False
 save_exp_e_plot: False
 
@@ -18,16 +19,16 @@ exp_g_a_value: 0.9
 exp_g_e_value: 0.0001
 
 a_values:
-  # - 0.1
-  # - 0.4
-  # - 0.6
-  # - 0.9
-
-g_values:
   - 0.1
   - 0.4
   - 0.6
   - 0.9
+
+g_values:
+  # - 0.1
+  # - 0.4
+  - 0.6
+  # - 0.9
 
 e_decay_values:
   - 0.0001

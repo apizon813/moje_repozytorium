@@ -12,8 +12,8 @@ def main():
         args = yaml.safe_load(file)
 
     run_exp_a = args['run_exp_a']
-    run_exp_g = args['run_exp_a']
-    run_exp_e = args['run_exp_a']
+    run_exp_g = args['run_exp_g']
+    run_exp_e = args['run_exp_e']
 
     save_exp_a_plot = args['save_exp_a_plot']
     # save_exp_g_plot = args['save_exp_g_plot']
@@ -21,6 +21,7 @@ def main():
 
     if run_exp_a:
         experiment_a(args)
+
     if save_exp_a_plot:
         data_path = args['results_path'] + 'exp_a/a_'
         save_path = args['results_path'] + 'plots/exp_a.png'

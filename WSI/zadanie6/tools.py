@@ -3,16 +3,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def get_mean_rewards(results, episodes):
-    seeds_num = len(results)
+def compute_mean_rewards(data, episodes):
+    seeds_num = len(data)
 
     mean_rewards = np.zeros(episodes)
     stds = np.zeros(episodes)
 
     for episode in range(episodes):
         rewards = list()
-        for seed in results:
-            rewards.append(results[seed][episode])
+        for seed in data:
+            reward = data[seed]
+            rewards.append(reward[episode])
 
         mean_reward = sum(rewards) / seeds_num
         mean_rewards[episode] = mean_reward
@@ -47,8 +48,9 @@ def get_results(args, data_path, par_values):
         results[str_val] = dict()
 
         for seed in seeds:
-            seed_path = path + f'/seed_{seed}_rewards'
+            seed_path = path + f'/seed_{seed}_rewards.csv'
             rewards = pd.read_csv(seed_path)
+            rewards = rewards.drop(rewards.columns[0], axis=1).T
             results[str_val][str(seed)] = rewards
 
     return results
@@ -59,12 +61,13 @@ def save_group_plot(args, data_path, save_path, par_values):
     t_size = args['t_size']
 
     results = get_results(args, data_path, par_values)
-    episodes = len(results[next(iter(results))]['rewards'])
+    episodes = args['episodes']
 
     for value in par_values:
-        value_results = results[value]
+        str_val = str(value).replace('.', '')
+        value_results = results[str_val]
 
-        rewards, stds = get_mean_rewards(value_results, episodes)
+        rewards, stds = compute_mean_rewards(value_results, episodes)
         moving_mean, moving_stds = get_moving_mean(
             rewards,
             stds,
@@ -72,7 +75,13 @@ def save_group_plot(args, data_path, save_path, par_values):
             episodes
             )
 
-        plt.plot(moving_mean)
+        x = np.arange(episodes)
+        plt.plot(x, moving_mean)
+        plt.fill_between(
+            x,
+            moving_mean - moving_stds,
+            moving_mean + moving_stds
+            )
     plt.savefig(save_path)
     plt.cla()
 
