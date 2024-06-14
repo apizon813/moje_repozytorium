@@ -23,6 +23,12 @@ def main():
     if args['run_exp_g']:
         experiment_g(args)
 
+    if args['save_exp_g_plot']:
+        data_path = args['results_path'] + 'exp_g/g_'
+        save_path = args['results_path'] + 'plots/exp_g.png'
+        par_values = args['g_values']
+        save_group_plot(args, data_path, save_path, par_values, 'g')
+
     if args['run_exp_e']:
         experiment_e(args)
 

@@ -30,7 +30,7 @@ def experiment_e(args):
 
 
 def run_experiment(
-    args, exp_name, param_values, param_key, fixed_g, fixed_decay
+    args, exp_name, param_values, param_key, fixed_a, fixed_decay
 ):
     episodes = args[f"{exp_name}_episodes"]
     seeds = args["seeds"]
@@ -45,8 +45,8 @@ def run_experiment(
             rewards, q = run(
                 episodes=episodes,
                 seed=seed,
-                a=value if param_key == "a" else fixed_g,
-                g=value if param_key == "g" else fixed_g,
+                a=fixed_a if param_key == "g" else value,
+                g=value if param_key == "g" else fixed_a,
                 decay_rate=fixed_decay,
             )
 
