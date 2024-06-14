@@ -5,7 +5,6 @@ import numpy as np
 def run(
     episodes, seed, a, g, decay_rate, render=False, verbose=True
 ):
-
     env = gym.make(
         "FrozenLake-v1",
         map_name="8x8",
@@ -14,18 +13,17 @@ def run(
     )
 
     q = np.zeros((env.observation_space.n, env.action_space.n))
-
-    learning_rate_a = a
-    discount_factor_g = g
-    epsilon = 1
+    epsilon = 1.0
     epsilon_decay_rate = decay_rate
 
-    rng = np.random.default_rng()
+    # learning_rate_a = a
+    # discount_factor_g = g
+
+    rng = np.random.default_rng(seed)
     reward_per_episode = np.zeros(episodes)
 
     for episode in range(episodes):
         observation, _ = env.reset(seed=seed)
-
         terminated = False
         truncated = False
 
@@ -41,27 +39,23 @@ def run(
 
             q[observation, action] = q[
                 observation, action
-            ] + learning_rate_a * (
+            ] + a * (
                 reward
-                + discount_factor_g * np.max(q[new_observation, :])
+                + g * np.max(q[new_observation, :])
                 - q[observation, action]
             )
 
             observation = new_observation
 
         epsilon = max(epsilon - epsilon_decay_rate, 0)
-
-        if epsilon == 0:
-            learning_rate_a = 0.0001
-
-        if reward == 1:
-            reward_per_episode[episode] = 1
+        reward_per_episode[episode] = reward
 
         if verbose:
-            print(episode)
+            print(f'Episode {episode}, Reward: {reward}')
 
     env.close()
+
     if verbose:
-        print(f'runned seed={seed}')
+        print(f'Finished run for seed={seed}')
 
     return reward_per_episode, q
