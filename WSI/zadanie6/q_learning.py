@@ -16,9 +16,6 @@ def run(
     epsilon = 1.0
     epsilon_decay_rate = decay_rate
 
-    # learning_rate_a = a
-    # discount_factor_g = g
-
     rng = np.random.default_rng(seed)
     reward_per_episode = np.zeros(episodes)
 

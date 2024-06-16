@@ -17,9 +17,20 @@ def compute_mean_rewards(data, episodes):
     return mean_rewards, stds
 
 
-def get_moving_mean(rewards, stds, t_size, episodes):
-    moving_mean = np.convolve(rewards, np.ones(t_size) / t_size, mode="same")
-    moving_stds = np.convolve(stds, np.ones(t_size) / t_size, mode="same")
+def get_moving_mean(rewards, stds, t_size, episodes, method='moving_average'):
+    if method == 'moving_average':
+        # Średnia ruchoma uwzględniająca tylko wcześniejsze dane
+        moving_mean = np.zeros(episodes)
+        moving_stds = np.zeros(episodes)
+
+        for i in range(episodes):
+            start = max(0, i - t_size + 1)
+            end = i + 1
+            window_rewards = rewards[start:end]
+            window_stds = stds[start:end]
+            moving_mean[i] = np.mean(window_rewards)
+            moving_stds[i] = np.mean(window_stds)
+
     return moving_mean, moving_stds
 
 

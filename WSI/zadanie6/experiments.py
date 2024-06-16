@@ -11,6 +11,7 @@ def experiment_a(args):
         "a",
         args["exp_a_g_value"],
         args["exp_a_e_value"],
+        args["exp_e_e_value"],
     )
 
 
@@ -22,15 +23,29 @@ def experiment_g(args):
         "g",
         args["exp_g_a_value"],
         args["exp_g_e_value"],
+        args["exp_e_e_value"],
     )
 
 
 def experiment_e(args):
-    pass  # Implementacja w przyszłości
+    run_experiment(
+        args=args,
+        exp_name="exp_e",
+        param_values=args["e_values"],
+        param_key="e",
+        fixed_a=args["exp_e_a_value"],
+        fixed_g=args["exp_e_g_value"],
+    )
 
 
 def run_experiment(
-    args, exp_name, param_values, param_key, fixed_a, fixed_decay
+    args,
+    exp_name,
+    param_values,
+    param_key,
+    fixed_a=None,
+    fixed_g=None,
+    fixed_e=None,
 ):
     episodes = args[f"{exp_name}_episodes"]
     seeds = args["seeds"]
@@ -45,9 +60,9 @@ def run_experiment(
             rewards, q = run(
                 episodes=episodes,
                 seed=seed,
-                a=fixed_a if param_key == "g" else value,
-                g=value if param_key == "g" else fixed_a,
-                decay_rate=fixed_decay,
+                a=value if param_key == "a" else fixed_a,
+                g=value if param_key == "g" else fixed_g,
+                decay_rate=value if param_key == "e" else fixed_e,
             )
 
             rewards_path = f"{path_value}seed_{seed}_rewards"

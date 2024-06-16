@@ -3,12 +3,12 @@ t_size: 100
 episodes: 10000
 
 run_exp_a: False
-run_exp_g: True
+run_exp_g: False
 run_exp_e: False
 
 save_exp_a_plot: False
 save_exp_g_plot: False
-save_exp_e_plot: False
+save_exp_e_plot: True
 
 exp_a_episodes: 10000
 exp_a_g_value: 0.9
@@ -18,6 +18,10 @@ exp_g_episodes: 10000
 exp_g_a_value: 0.1
 exp_g_e_value: 0.0001
 
+exp_e_episodes: 10000
+exp_e_a_value: 0.1
+exp_e_g_value: 0.9
+
 a_values:
   - 0.1
   - 0.4
@@ -25,19 +29,20 @@ a_values:
   - 0.9
 
 g_values:
-  # - 0.1
-  # - 0.4
-  # - 0.6
+  - 0.1
+  - 0.4
+  - 0.6
   - 0.9
 
-e_decay_values:
+e_values:
   - 0.0001
-  - 0.001
-  - 0.01
+  - 0.0002
+  - 0.0003
+  - 0.0005
 
 seeds:
-  # - 40
+  - 40
   - 41
-  # - 42
-  # - 43
-  # - 44
+  - 42
+  - 43
+  - 44
