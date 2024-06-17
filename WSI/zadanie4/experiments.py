@@ -1,38 +1,23 @@
 from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.svm import SVC
-from tools import Metrics
+from sklearn.tree import DecisionTreeClassifier
+from tools import Metrics, save_results
 
 
-def save_results(data, path, param_name, param_value):
-    path = f'{path}{param_name}_{param_value}'
-    data.to_csv(path, index=True)
+def experiment_svm_regularization(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
 
-
-def experiment1(args, bankdata):
-    '''
-    eksperyment dotyczący siły regularyzacji
-    '''
-    X = bankdata.drop('class', axis=1)
-    y = bankdata['class']
-
-    scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
-
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
     metrics = Metrics()
 
-    for linearization_value in args['linearization']:
-        for seed in range(3):
+    for C_value in args["regularization"]:
+        for seed in range(5):
             x_train, x_test, y_train, y_test = train_test_split(
-                X,
-                y,
-                test_size=0.2,
-                random_state=seed
-                )
-            clf = SVC(
-                C=linearization_value,
-                kernel='linear',
-                random_state=seed
-                )
-            scores = cross_validate(clf, X, y, scoring=scoring)
+                X, y, test_size=0.2, random_state=seed
+            )
+            clf = SVC(C=C_value, kernel="linear", random_state=seed)
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
             metrics.update_cv(scores)
 
             clf.fit(x_train, y_train)
@@ -41,37 +26,24 @@ def experiment1(args, bankdata):
 
         results = metrics.to_dataframe()
         save_results(
-            data=results,
-            path=args['svm_results_path'],
-            param_name='linearization',
-            param_value=linearization_value
-            )
+            results, args["svm_results_path"], "regularization", C_value
+        )
 
 
-def experiment2(args, bankdata):
-    '''
-    eksperyment dotyczący funkcji jądra
-    '''
-    X = bankdata.drop('class', axis=1)
-    y = bankdata['class']
+def experiment_svm_kernel(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
 
-    scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
-
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
     metrics = Metrics()
 
-    for kernel_function in args['kernel']:
-        for seed in range(3):
+    for kernel_function in args["kernel"]:
+        for seed in range(5):
             x_train, x_test, y_train, y_test = train_test_split(
-                X,
-                y,
-                test_size=0.2,
-                random_state=seed
-                )
-            clf = SVC(
-                kernel=kernel_function,
-                random_state=seed
-                )
-            scores = cross_validate(clf, X, y, scoring=scoring)
+                X, y, test_size=0.2, random_state=seed
+            )
+            clf = SVC(kernel=kernel_function, random_state=seed)
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
             metrics.update_cv(scores)
 
             clf.fit(x_train, y_train)
@@ -80,39 +52,29 @@ def experiment2(args, bankdata):
 
         results = metrics.to_dataframe()
         save_results(
-            data=results,
-            path=args['svm_results_path'],
-            param_name='kernel',
-            param_value=kernel_function
-            )
+            results, args["svm_results_path"], "kernel", kernel_function
+        )
 
 
-def experiment3(args, bankdata):
-    '''
-    eksperyment dotyczący liczby iteracji
-    '''
-    X = bankdata.drop('class', axis=1)
-    y = bankdata['class']
+def experiment_svm_iterations(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
 
-    scoring = ['precision_macro', 'accuracy', 'recall_macro', 'f1_macro']
-
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
     metrics = Metrics()
 
-    for max_iterations in args['iterations']:
-        for seed in range(3):
+    for max_iterations in args["iterations"]:
+        for seed in range(5):
             x_train, x_test, y_train, y_test = train_test_split(
-                X,
-                y,
-                test_size=0.2,
-                random_state=seed
-                )
+                X, y, test_size=0.2, random_state=seed
+            )
             clf = SVC(
                 tol=1e-16,
                 max_iter=max_iterations,
-                kernel='linear',
-                random_state=seed
-                )
-            scores = cross_validate(clf, X, y, scoring=scoring)
+                kernel="linear",
+                random_state=seed,
+            )
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
             metrics.update_cv(scores)
 
             clf.fit(x_train, y_train)
@@ -121,8 +83,84 @@ def experiment3(args, bankdata):
 
         results = metrics.to_dataframe()
         save_results(
-            data=results,
-            path=args['svm_results_path'],
-            param_name='iterations',
-            param_value=max_iterations
+            results, args["svm_results_path"], "iterations", max_iterations
+        )
+
+
+def experiment_tree_criterion(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
+
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
+    metrics = Metrics()
+
+    for criterion in args["criterion"]:
+        for seed in range(5):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=seed
             )
+            clf = DecisionTreeClassifier(
+                criterion=criterion, random_state=seed
+            )
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
+            metrics.update_cv(scores)
+
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(
+            results, args["tree_results_path"], "criterion", criterion
+        )
+
+
+def experiment_tree_splitter(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
+
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
+    metrics = Metrics()
+
+    for splitter in args["splitter"]:
+        for seed in range(5):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=seed
+            )
+            clf = DecisionTreeClassifier(splitter=splitter, random_state=seed)
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
+            metrics.update_cv(scores)
+
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(results, args["tree_results_path"], "splitter", splitter)
+
+
+def experiment_tree_depth(args, bankdata):
+    X = bankdata.drop("class", axis=1)
+    y = bankdata["class"]
+
+    scoring = ["precision_macro", "accuracy", "recall_macro", "f1_macro"]
+    metrics = Metrics()
+
+    for depth in args["max_depth"]:
+        max_depth = None if depth == "None" else depth
+        for seed in range(5):
+            x_train, x_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=seed
+            )
+            clf = DecisionTreeClassifier(
+                max_depth=max_depth, random_state=seed
+            )
+            scores = cross_validate(clf, X, y, scoring=scoring, cv=5)
+            metrics.update_cv(scores)
+
+            clf.fit(x_train, y_train)
+            y_pred = clf.predict(x_test)
+            metrics.update_pred(y_test, y_pred)
+
+        results = metrics.to_dataframe()
+        save_results(results, args["tree_results_path"], "max_depth", depth)

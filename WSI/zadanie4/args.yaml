@@ -1,13 +1,14 @@
-data_path: 'iris/iris.data'
+data_path: "iris/iris.data"
 
-svm_results_path: 'results/svm/'
+svm_results_path: "results/svm/"
+tree_results_path: "results/tree/"
 
-tree_results_path: 'results/tree/'
-
-linearization:
+regularization:
   - 0.1
   - 1
   - 10
+  - 100
+  - 1000
 
 kernel:
   - linear
@@ -19,3 +20,20 @@ iterations:
   - 10
   - 100
   - 1000
+  - 10000
+  - 100000
+
+criterion:
+  - gini
+  - entropy
+
+splitter:
+  - best
+  - random
+
+max_depth:
+  - None
+  - 5
+  - 10
+  - 15
+  - 20
