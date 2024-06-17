@@ -1,14 +1,7 @@
-# experiments.py
-
 from sklearn.model_selection import train_test_split, cross_validate
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from tools import Metrics
-
-
-def save_results(data, path, param_name, param_value):
-    path = f"{path}{param_name}_{param_value}.csv"
-    data.to_csv(path, index=True)
+from tools import Metrics, save_results
 
 
 def experiment_svm_regularization(args, bankdata):

@@ -1,5 +1,5 @@
 import experiments as exp
-import tools
+from tools import load_databank
 import yaml
 
 
@@ -8,7 +8,7 @@ def main():
         args = yaml.safe_load(file)
 
     data_path = args["data_path"]
-    bankdata = tools.load_databank(data_path)
+    bankdata = load_databank(data_path)
 
     exp.experiment_svm_regularization(args, bankdata)
     exp.experiment_svm_kernel(args, bankdata)

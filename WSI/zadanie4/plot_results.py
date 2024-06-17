@@ -16,7 +16,7 @@ def load_results(param_name, path_template, param_values):
     results = []
     total = len(param_values)
     for i, value in enumerate(param_values):
-        formatted_value = f"{value:.2e}"  # Formatowanie w notacji naukowej
+        formatted_value = f"{value:.2e}"
         path = path_template.format(formatted_value)
         print(
             f"[{i+1}/{total}] Wcz {param_name}: {formatted_value}"
@@ -28,13 +28,13 @@ def load_results(param_name, path_template, param_values):
         except FileNotFoundError:
             print(
                 f"Plik nie znaleziony: {path}"
-            )  # Informowanie o brakujących plikach
+            )
             continue
     if results:
         return pd.concat(results)
     else:
         raise ValueError(
-            "Brak danych do przetworzenia. Sprawdź, czy pliki CSV istnieją."
+            "Brak danych do przetworzenia."
         )
 
 
@@ -61,7 +61,6 @@ tree_depth_results = load_results(
 
 print("Wyniki wczytane, tworzenie wykresów...")
 
-# Rysowanie wykresu dla siły regularizacji
 print("Rysowanie wykresu dla siły regularizacji SVM...")
 plt.figure(figsize=(10, 6))
 plt.plot(
@@ -77,7 +76,6 @@ plt.grid(True)
 save_plot(plt, "results/plots/svm_regularization_plot.png")
 plt.show()
 
-# Rysowanie wykresu dla liczby iteracji SVM
 print("Rysowanie wykresu dla liczby iteracji SVM...")
 plt.figure(figsize=(10, 6))
 plt.plot(
@@ -93,7 +91,6 @@ plt.grid(True)
 save_plot(plt, "results/plots/svm_iterations_plot.png")
 plt.show()
 
-# Rysowanie wykresu dla głębokości drzewa decyzyjnego
 print("Rysowanie wykresu dla głębokości drzewa decyzyjnego...")
 plt.figure(figsize=(10, 6))
 plt.plot(

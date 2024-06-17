@@ -11,7 +11,7 @@ def save_results(data, path, param_name, param_value):
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
         os.makedirs(directory)
-    formatted_value = f"{param_value:.2e}"  # Formatowanie w notacji naukowej
+    formatted_value = f"{param_value:.2e}"
     path = f"{path}{param_name}_{formatted_value}.csv"
     data.to_csv(path, index=True)
 
@@ -24,7 +24,7 @@ def experiment_svm_regularization(bankdata):
 
     regularization_values = np.logspace(
         -3, 3, 50
-    )  # 50 wartości logarytmicznych od 0.001 do 1000
+    )
 
     for C_value in regularization_values:
         for seed in range(5):
@@ -54,7 +54,7 @@ def experiment_svm_iterations(bankdata):
 
     iteration_values = np.logspace(
         1, 5, 50, dtype=int
-    )  # 50 wartości logarytmicznych od 10 do 100000, jako int
+    )
 
     for max_iterations in iteration_values:
         for seed in range(5):
@@ -92,7 +92,7 @@ def experiment_tree_depth(bankdata):
 
     depth_values = np.linspace(
         1, 50, 50, dtype=int
-    )  # 50 wartości dla głębokości drzewa
+    )
 
     for max_depth in depth_values:
         for seed in range(5):

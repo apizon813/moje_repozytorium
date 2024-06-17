@@ -3,6 +3,44 @@ import numpy as np
 from dataclasses import dataclass, field
 
 
+def save_results(data, path, param_name, param_value):
+    path = f"{path}{param_name}_{param_value}.csv"
+    data.to_csv(path, index=True)
+
+
+def load_databank(path):
+    ext = path.split(".")[-1]
+
+    if ext == "csv":
+        try:
+            data = pd.read_csv(path)
+        except Exception as e:
+            raise IOError(f"Błąd wczytywania danych z pliku CSV: {e}")
+    elif ext in ["xls", "xlsx"]:
+        try:
+            data = pd.read_excel(path)
+        except Exception as e:
+            raise IOError(f"Błąd wczytywania danych z pliku Excel: {e}")
+    else:
+        raise ValueError(f"Nieobsługiwane rozszerzenie pliku: {ext}")
+
+    if data.isnull().values.any():
+        data.fillna(
+            method="ffill", inplace=True
+        )
+
+    if "class" not in data.columns:
+        data.columns = [
+            "sepal_length",
+            "sepal_width",
+            "petal_length",
+            "petal_width",
+            "class",
+        ]
+
+    return data
+
+
 @dataclass
 class Metrics:
     precision_cv: list = field(default_factory=list)
