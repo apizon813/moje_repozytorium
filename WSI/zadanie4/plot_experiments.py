@@ -11,7 +11,8 @@ def save_results(data, path, param_name, param_value):
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
         os.makedirs(directory)
-    path = f"{path}{param_name}_{int(param_value):04}.csv"
+    formatted_value = f"{param_value:.2e}"  # Formatowanie w notacji naukowej
+    path = f"{path}{param_name}_{formatted_value}.csv"
     data.to_csv(path, index=True)
 
 
@@ -29,7 +30,13 @@ def experiment_svm_regularization(bankdata):
         for seed in range(5):
             clf = SVC(C=C_value, kernel="linear", random_state=seed)
             scores = cross_validate(
-                clf, X, y, scoring=scoring, cv=5, return_train_score=False
+                clf,
+                X,
+                y,
+                scoring=scoring,
+                cv=5,
+                return_train_score=False,
+                n_jobs=-1,
             )
             metrics.update_cv(scores)
 
@@ -58,7 +65,13 @@ def experiment_svm_iterations(bankdata):
                 random_state=seed,
             )
             scores = cross_validate(
-                clf, X, y, scoring=scoring, cv=5, return_train_score=False
+                clf,
+                X,
+                y,
+                scoring=scoring,
+                cv=5,
+                return_train_score=False,
+                n_jobs=-1,
             )
             metrics.update_cv(scores)
 
@@ -71,29 +84,35 @@ def experiment_svm_iterations(bankdata):
         )
 
 
-def experiment_tree_iterations(bankdata):
+def experiment_tree_depth(bankdata):
     X = bankdata.drop("class", axis=1)
     y = bankdata["class"]
     scoring = ["precision_macro"]
     metrics = Metrics()
 
-    iteration_values = np.linspace(
+    depth_values = np.linspace(
         1, 50, 50, dtype=int
-    )  # 50 wartości liniowych od 1 do 50
+    )  # 50 wartości dla głębokości drzewa
 
-    for max_depth in iteration_values:
+    for max_depth in depth_values:
         for seed in range(5):
             clf = DecisionTreeClassifier(
                 max_depth=max_depth, random_state=seed
             )
             scores = cross_validate(
-                clf, X, y, scoring=scoring, cv=5, return_train_score=False
+                clf,
+                X,
+                y,
+                scoring=scoring,
+                cv=5,
+                return_train_score=False,
+                n_jobs=-1,
             )
             metrics.update_cv(scores)
 
         results = metrics.to_dataframe()
         save_results(
-            results, "results/plots/tree_iterations_", "max_depth", max_depth
+            results, "results/plots/tree_depth_", "max_depth", max_depth
         )
 
 
@@ -110,7 +129,7 @@ def main():
     )
     experiment_svm_regularization(bankdata)
     experiment_svm_iterations(bankdata)
-    experiment_tree_iterations(bankdata)
+    experiment_tree_depth(bankdata)
 
 
 if __name__ == "__main__":
