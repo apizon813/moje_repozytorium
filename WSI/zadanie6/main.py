@@ -11,26 +11,25 @@ def main():
     with open('arguments.yaml', 'r') as file:
         args = yaml.safe_load(file)
 
-    run_exp_a = args['run_exp_a']
-    run_exp_g = args['run_exp_g']
-    run_exp_e = args['run_exp_e']
-
-    save_exp_a_plot = args['save_exp_a_plot']
-    # save_exp_g_plot = args['save_exp_g_plot']
-    # save_exp_e_plot = args['save_exp_e_plot']
-
-    if run_exp_a:
+    if args['run_exp_a']:
         experiment_a(args)
 
-    if save_exp_a_plot:
+    if args['save_exp_a_plot']:
         data_path = args['results_path'] + 'exp_a/a_'
         save_path = args['results_path'] + 'plots/exp_a.png'
         par_values = args['a_values']
+        save_group_plot(args, data_path, save_path, par_values, 'a')
 
-        save_group_plot(args, data_path, save_path, par_values)
-    if run_exp_g:
+    if args['run_exp_g']:
         experiment_g(args)
-    if run_exp_e:
+
+    if args['save_exp_g_plot']:
+        data_path = args['results_path'] + 'exp_g/g_'
+        save_path = args['results_path'] + 'plots/exp_g.png'
+        par_values = args['g_values']
+        save_group_plot(args, data_path, save_path, par_values, 'g')
+
+    if args['run_exp_e']:
         experiment_e(args)
 
 
