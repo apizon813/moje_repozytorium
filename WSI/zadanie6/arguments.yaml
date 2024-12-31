@@ -5,13 +5,13 @@ episodes: 10000
 run_exp_a: False
 run_exp_g: False
 run_exp_e: False
-run_exp_t: True
+run_exp_t: False
 
 
 save_exp_a_plot: False
 save_exp_g_plot: False
 save_exp_e_plot: False
-save_exp_t_plot: False
+save_exp_t_plot: True
 
 
 exp_a_episodes: 10000
@@ -28,7 +28,7 @@ exp_e_g_value: 0.9
 
 exp_t_episodes: 10000
 exp_t_a_value: 0.1
-exp_t_g_value: 0.9
+exp_t_g_value: 0.7
 
 a_values:
   - 0.1
@@ -51,9 +51,9 @@ e_values:
 t_values:
   - 0.000001
   - 0.00001
-  # - 0.0001
+  - 0.0001
   - 0.001
-  # - 0.01
+  - 0.01
 
 seeds:
   - 40
